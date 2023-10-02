@@ -45,4 +45,9 @@
     <string name="metro_title">Metro</string>
     <string name="metro_description">It\'s only 10 stations long, but every station is a small architectural marvel with bold mix of avant-garde and classical designs. A convenient way to travel between most important parts of the city.</string>
     <string name="metro_address">Republic Square &amp; other places</string>
+    <string name="restaurants_category">Restaurants</string>
+    <string name="bars_category">Bars</string>
+    <string name="parks_category">Parks</string>
+    <string name="shops_category">Shops</string>
+    <string name="attractions_category">Other Attractions</string>
 </resources>

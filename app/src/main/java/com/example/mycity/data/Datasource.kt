@@ -4,6 +4,39 @@ import com.example.mycity.R
 
 object Datasource {
 
+    val restaurantsCategory = Category(
+        name = R.string.restaurants_category,
+        icon = R.drawable.restaurant_icon,
+        list = listOf(
+            Place(
+                name = R.string.kavkaz_title,
+                description = R.string.kavkaz_description,
+                address = R.string.kavkaz_address,
+                photo = R.drawable.kavkaz
+            ),
+            Place(
+                name = R.string.genacvale_title,
+                description = R.string.genacvale_description,
+                address = R.string.genacvale_address,
+                photo = R.drawable.genacvale
+            ),
+            Place(
+                name = R.string.black_angus_title,
+                description = R.string.black_angus_description,
+                address = R.string.black_angus_description,
+                photo = R.drawable.blackangus
+            ),
+            Place(
+                name = R.string.sakurada_title,
+                description = R.string.sakurada_description,
+                address = R.string.sakurada_address,
+                photo = R.drawable.sakurada
+            )
+        )
+    )
+
+    val listOfCategories = listOf(restaurantsCategory)
+
     val restaurants = listOf(
         Place(
             name = R.string.kavkaz_title,
