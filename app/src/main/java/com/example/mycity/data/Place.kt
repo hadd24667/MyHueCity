@@ -7,13 +7,5 @@ data class Place(
     @StringRes val name: Int,
     @StringRes val description: Int,
     @DrawableRes val photo: Int,
-    @StringRes val address: Int,
-    val placeType: PlaceType
+    @StringRes val address: Int
 )
-
-enum class PlaceType {
-    Restaurant,
-    Pubs,
-    Parks,
-    Other
-}
