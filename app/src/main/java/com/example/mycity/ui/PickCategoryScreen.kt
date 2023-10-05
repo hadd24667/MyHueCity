@@ -28,7 +28,7 @@ fun PickACategoryScreen(
     uiState: StateFlow<MyCityUiState>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
         items(uiState.value.categories) {
             CategoryCard(
                 category = it, modifier = Modifier
