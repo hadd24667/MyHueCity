@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCity</string>
+    <string name="app_name">MyCity - Yerevan</string>
     <string name="kavkaz_title">Kavkaz</string>
     <string name="kavkaz_description">For decades Kavkaz established itself as one of the best spots for enjoyers of Caucasian cuisine in Yerevan. Its rustic decorations accommodate lively feasts and offer, also, small secluded rooms for romantic dinners. The vast menu offers a selection of authentic dishes from Armenian and Georgian cuisine and extensive range of regional wines.</string>
     <string name="kavkaz_address">4, 6 Teryan St</string>
@@ -50,4 +50,5 @@
     <string name="parks_category">Parks</string>
     <string name="shops_category">Shops</string>
     <string name="attractions_category">Other Attractions</string>
+    <string name="back_button">Back</string>
 </resources>
