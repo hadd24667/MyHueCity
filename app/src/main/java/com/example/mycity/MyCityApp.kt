@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -38,6 +39,7 @@ enum class MyCityScreen(val title: Int) {
 
 }
 
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCityApp() {
@@ -47,8 +49,11 @@ fun MyCityApp() {
     val viewModel: MyCityViewModel = viewModel()
 
     Scaffold(topBar = {
-        MyCityAppBar(canNavigateBack = navController.previousBackStackEntry != null,
-            navigateUp = { navController.navigateUp() })
+        MyCityAppBar(
+            canNavigateBack = navController.previousBackStackEntry != null,
+            navigateUp = { navController.navigateUp() },
+            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
+        )
     }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
