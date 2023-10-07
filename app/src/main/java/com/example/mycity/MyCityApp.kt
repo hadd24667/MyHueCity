@@ -32,10 +32,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickACategoryScreen
+import com.example.mycity.ui.PickAPlaceScreen
 
 
-enum class MyCityScreen(val title: Int) {
-    Start(title = 0)
+enum class MyCityScreen {
+    Start,
+    PlacesList
 
 }
 
@@ -64,6 +66,16 @@ fun MyCityApp() {
             ) {
                 PickACategoryScreen(
                     uiState = viewModel.uiState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
+            }
+            composable(
+                route = MyCityScreen.PlacesList.name
+            ) {
+                PickAPlaceScreen(
+                    uiState= viewModel.uiState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
