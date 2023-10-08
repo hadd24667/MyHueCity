@@ -51,6 +51,10 @@ fun MyCityApp() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val viewModel: MyCityViewModel = viewModel()
 
+    val currentScreen = MyCityScreen.valueOf(
+        backStackEntry?.destination?.route ?: MyCityScreen.Start.name
+    )
+
     Scaffold(topBar = {
         MyCityAppBar(
             canNavigateBack = navController.previousBackStackEntry != null,
