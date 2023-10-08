@@ -49,9 +49,6 @@ enum class MyCityScreen {
 fun MyCityApp() {
     val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = MyCityScreen.valueOf(
-        backStackEntry?.destination?.route ?: MyCityScreen.Start.name
-    )
     val viewModel: MyCityViewModel = viewModel()
 
     Scaffold(topBar = {
@@ -70,8 +67,7 @@ fun MyCityApp() {
             ) {
                 PickACategoryScreen(
                     viewModel = viewModel,
-                    navController = navController,
-                    route = MyCityScreen.PlacesList.name,
+                    navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
@@ -81,8 +77,8 @@ fun MyCityApp() {
                 route = MyCityScreen.PlacesList.name
             ) {
                 PickAPlaceScreen(
-                    navController=navController,
-                    viewModel= viewModel,
+                    navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
+                    viewModel = viewModel,
                     uiState = uiState,
                     modifier = Modifier
                         .fillMaxSize()
@@ -93,7 +89,8 @@ fun MyCityApp() {
                 route = MyCityScreen.Place.name
             ) {
                 PlaceScreen(
-                    uiState=uiState,
+                    uiState = uiState,
+                    onClick = { TODO() },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)

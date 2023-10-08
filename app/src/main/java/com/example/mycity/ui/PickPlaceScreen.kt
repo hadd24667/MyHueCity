@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.mycity.R
 import com.example.mycity.data.Place
 import com.example.mycity.ui.theme.Shapes
@@ -29,7 +28,7 @@ import com.example.mycity.ui.theme.Shapes
 @Composable
 fun PickAPlaceScreen(
     viewModel: MyCityViewModel,
-    navController: NavController,
+    navigateFunction: ()->Unit,
     uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +45,9 @@ fun PickAPlaceScreen(
                         start = dimensionResource(id = R.dimen.padding_medium),
                         end = dimensionResource(id = R.dimen.padding_medium)
                     ),
-                onClick = { viewModel.updateCurrentPlace(it)
+                onClick = {
+                    viewModel.updateCurrentPlace(it)
+                    navigateFunction()
                 }
             )
         }
@@ -54,6 +55,7 @@ fun PickAPlaceScreen(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaceCard(
     place: Place,
@@ -62,10 +64,8 @@ fun PlaceCard(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(
-            topEnd = 20.dp, topStart = 40.dp,
-            bottomEnd = 20.dp, bottomStart = 40.dp
-        ),
+        onClick = onClick,
+        shape = Shapes.medium,
     ) {
         Row(
             modifier = Modifier

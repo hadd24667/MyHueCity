@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,37 +18,32 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.mycity.R
 import com.example.mycity.data.Category
 import com.example.mycity.data.Datasource
+import com.example.mycity.ui.theme.Shapes
 
 @Composable
 fun PickACategoryScreen(
     viewModel: MyCityViewModel,
-    navController: NavController,
-    route:String,
+    navigateFunction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         items(viewModel.uiState.value.categories) {
-            CategoryCard(
-                category = it, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        bottom = dimensionResource(
-                            id = R.dimen.padding_small
-                        ),
-                        start = dimensionResource(id = R.dimen.padding_medium),
-                        end = dimensionResource(id = R.dimen.padding_medium)
-
+            CategoryCard(category = it, modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    bottom = dimensionResource(
+                        id = R.dimen.padding_small
                     ),
-                onClick = {
-                    viewModel.updateCurrentCategory(it)
-                    navController.navigate(route = route)
-                }
-            )
+                    start = dimensionResource(id = R.dimen.padding_medium),
+                    end = dimensionResource(id = R.dimen.padding_medium)
+
+                ), onClick = {
+                viewModel.updateCurrentCategory(it)
+                navigateFunction()
+            })
         }
     }
 
@@ -58,16 +52,11 @@ fun PickACategoryScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryCard(
-    category: Category,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    category: Category, modifier: Modifier = Modifier, onClick: () -> Unit = {}
 ) {
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(
-            topEnd = 8.dp, topStart = 40.dp,
-            bottomEnd = 20.dp, bottomStart = 8.dp
-        ),
+        shape = Shapes.medium,
         modifier = modifier
     ) {
         Row(
