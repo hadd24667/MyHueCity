@@ -20,18 +20,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.mycity.R
 import com.example.mycity.data.Category
 import com.example.mycity.data.Datasource
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun PickACategoryScreen(
-    uiState: StateFlow<MyCityUiState>,
-    modifier: Modifier = Modifier
+    viewModel: MyCityViewModel,
+    navController: NavController,
+    route:String,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
-        items(uiState.value.categories) {
+        items(viewModel.uiState.value.categories) {
             CategoryCard(
                 category = it, modifier = Modifier
                     .fillMaxWidth()
@@ -42,7 +44,11 @@ fun PickACategoryScreen(
                         start = dimensionResource(id = R.dimen.padding_medium),
                         end = dimensionResource(id = R.dimen.padding_medium)
 
-                    )
+                    ),
+                onClick = {
+                    viewModel.updateCurrentCategory(it)
+                    navController.navigate(route = route)
+                }
             )
         }
     }
@@ -58,8 +64,10 @@ fun CategoryCard(
 ) {
     Card(
         onClick = onClick,
-        shape= RoundedCornerShape(topEnd = 8.dp, topStart = 40.dp,
-            bottomEnd = 20.dp, bottomStart = 8.dp),
+        shape = RoundedCornerShape(
+            topEnd = 8.dp, topStart = 40.dp,
+            bottomEnd = 20.dp, bottomStart = 8.dp
+        ),
         modifier = modifier
     ) {
         Row(

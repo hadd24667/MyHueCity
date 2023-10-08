@@ -20,19 +20,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.mycity.R
 import com.example.mycity.data.Place
 import com.example.mycity.ui.theme.Shapes
-import kotlinx.coroutines.flow.StateFlow
 
 
 @Composable
 fun PickAPlaceScreen(
-    uiState: StateFlow<MyCityUiState>,
+    viewModel: MyCityViewModel,
+    navController: NavController,
+    uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn() {
-        items(uiState.value.currentCategory.list) {
+    LazyColumn(modifier = modifier) {
+        items(uiState.currentCategory.list) {
             PlaceCard(
                 place = it,
                 modifier = Modifier
@@ -43,7 +45,9 @@ fun PickAPlaceScreen(
                         ),
                         start = dimensionResource(id = R.dimen.padding_medium),
                         end = dimensionResource(id = R.dimen.padding_medium)
-                    )
+                    ),
+                onClick = { viewModel.updateCurrentPlace(it)
+                }
             )
         }
     }
@@ -51,7 +55,11 @@ fun PickAPlaceScreen(
 }
 
 @Composable
-fun PlaceCard(place: Place, modifier: Modifier = Modifier) {
+fun PlaceCard(
+    place: Place,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(

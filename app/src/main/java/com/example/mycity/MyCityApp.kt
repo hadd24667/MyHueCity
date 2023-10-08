@@ -33,11 +33,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickACategoryScreen
 import com.example.mycity.ui.PickAPlaceScreen
+import com.example.mycity.ui.PlaceScreen
 
 
 enum class MyCityScreen {
     Start,
-    PlacesList
+    PlacesList,
+    Place
 
 }
 
@@ -47,7 +49,9 @@ enum class MyCityScreen {
 fun MyCityApp() {
     val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-
+    val currentScreen = MyCityScreen.valueOf(
+        backStackEntry?.destination?.route ?: MyCityScreen.Start.name
+    )
     val viewModel: MyCityViewModel = viewModel()
 
     Scaffold(topBar = {
@@ -65,7 +69,9 @@ fun MyCityApp() {
                 route = MyCityScreen.Start.name
             ) {
                 PickACategoryScreen(
-                    uiState = viewModel.uiState,
+                    viewModel = viewModel,
+                    navController = navController,
+                    route = MyCityScreen.PlacesList.name,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
@@ -75,7 +81,19 @@ fun MyCityApp() {
                 route = MyCityScreen.PlacesList.name
             ) {
                 PickAPlaceScreen(
-                    uiState= viewModel.uiState,
+                    navController=navController,
+                    viewModel= viewModel,
+                    uiState = uiState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
+            }
+            composable(
+                route = MyCityScreen.Place.name
+            ) {
+                PlaceScreen(
+                    uiState=uiState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
@@ -123,3 +141,4 @@ fun MyCityAppBar(
             }
         })
 }
+
