@@ -31,8 +31,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mycity.ui.MyCityViewModel
-import com.example.mycity.ui.PickACategoryScreen
-import com.example.mycity.ui.PickAPlaceScreen
+import com.example.mycity.ui.PickCategoryScreen
+import com.example.mycity.ui.PickPlaceScreen
 import com.example.mycity.ui.PlaceScreen
 
 
@@ -46,10 +46,11 @@ enum class MyCityScreen {
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyCityApp() {
-    val navController: NavHostController = rememberNavController()
+fun MyCityApp(
+    navController: NavHostController = rememberNavController(),
+    viewModel: MyCityViewModel = viewModel()
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val viewModel: MyCityViewModel = viewModel()
 
     val currentScreen = MyCityScreen.valueOf(
         backStackEntry?.destination?.route ?: MyCityScreen.Start.name
@@ -69,9 +70,10 @@ fun MyCityApp() {
             composable(
                 route = MyCityScreen.Start.name
             ) {
-                PickACategoryScreen(
+                PickCategoryScreen(
                     viewModel = viewModel,
                     navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
+                    uiState = uiState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
@@ -80,7 +82,7 @@ fun MyCityApp() {
             composable(
                 route = MyCityScreen.PlacesList.name
             ) {
-                PickAPlaceScreen(
+                PickPlaceScreen(
                     navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
                     viewModel = viewModel,
                     uiState = uiState,

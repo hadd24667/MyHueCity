@@ -26,9 +26,9 @@ import com.example.mycity.ui.theme.Shapes
 
 
 @Composable
-fun PickAPlaceScreen(
+fun PickPlaceScreen(
     viewModel: MyCityViewModel,
-    navigateFunction: ()->Unit,
+    navigateFunction: () -> Unit,
     uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {

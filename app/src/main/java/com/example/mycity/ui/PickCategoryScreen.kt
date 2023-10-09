@@ -24,13 +24,14 @@ import com.example.mycity.data.Datasource
 import com.example.mycity.ui.theme.Shapes
 
 @Composable
-fun PickACategoryScreen(
+fun PickCategoryScreen(
     viewModel: MyCityViewModel,
+    uiState: MyCityUiState,
     navigateFunction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
-        items(viewModel.uiState.value.categories) {
+        items(uiState.categories) {
             CategoryCard(category = it, modifier = Modifier
                 .fillMaxWidth()
                 .padding(
