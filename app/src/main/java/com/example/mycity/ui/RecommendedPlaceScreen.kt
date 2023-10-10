@@ -1,7 +1,9 @@
 package com.example.mycity.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.example.mycity.R
 import com.example.mycity.ui.theme.Shapes
 
@@ -47,8 +50,9 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
             modifier = Modifier
                 .constrainAs(card) {
                     top.linkTo(image.bottom, margin = (-60).dp)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.fillToConstraints
                 }
-                .fillMaxSize()
                 .shadow(
                     dimensionResource(id = R.dimen.shadow_elevation),
                     shape = Shapes.large,
@@ -80,16 +84,19 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
                 modifier = Modifier.padding(
                     end = dimensionResource(id = R.dimen.padding_large),
                     start = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
+                ))
+            Spacer(Modifier.weight(1f))
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = { onClick },
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
 
-            Button(
-                onClick = { onClick },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-            ) {
-                Text(text = "Next")
-                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+                ) {
+                    Text(text = "Next")
+                    Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+                }
             }
+
 
 
         }
