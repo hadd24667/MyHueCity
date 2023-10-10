@@ -23,7 +23,7 @@ object Datasource {
             Place(
                 name = R.string.black_angus_title,
                 description = R.string.black_angus_description,
-                address = R.string.black_angus_description,
+                address = R.string.black_angus_address,
                 photo = R.drawable.blackangus
             ),
             Place(

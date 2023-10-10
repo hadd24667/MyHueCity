@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
@@ -62,21 +64,25 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
                     ambientColor = Color.Cyan
                 )) {
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Text(
+                text = stringResource(id = uiState.currentPlace.name),
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(
                     end = dimensionResource(id = R.dimen.padding_place_card),
-                    bottom = dimensionResource(id = R.dimen.padding_large),
+                    bottom = dimensionResource(id = R.dimen.padding_small),
                     top = dimensionResource(id = R.dimen.padding_large),
+                    start = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(
+                    end = dimensionResource(id = R.dimen.padding_place_card),
+                    bottom = dimensionResource(id = R.dimen.padding_large),
                     start = dimensionResource(id = R.dimen.padding_medium)
                 )
 
             ) {
-                Text(
-                    text = stringResource(id = uiState.currentPlace.name),
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.weight(5f)
-                )
+
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.location_icon),
                     contentDescription = null
@@ -90,10 +96,12 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
                 text = stringResource(id = uiState.currentPlace.description),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Justify,
-                modifier = Modifier.padding(
-                    end = dimensionResource(id = R.dimen.padding_large),
-                    start = dimensionResource(id = R.dimen.padding_medium)
-                )
+                modifier = Modifier
+                    .padding(
+                        end = dimensionResource(id = R.dimen.padding_large),
+                        start = dimensionResource(id = R.dimen.padding_medium)
+                    )
+                    .verticalScroll(rememberScrollState())
             )
             Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
