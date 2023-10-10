@@ -13,8 +13,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.mycity.R
+import com.example.mycity.ui.theme.MyCityTheme
 import com.example.mycity.ui.theme.Shapes
 
 @Composable
@@ -60,43 +63,48 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
                 )) {
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(
                     end = dimensionResource(id = R.dimen.padding_place_card),
-                    bottom = dimensionResource(id = R.dimen.padding_small),
-                    top = dimensionResource(id = R.dimen.padding_medium),
+                    bottom = dimensionResource(id = R.dimen.padding_large),
+                    top = dimensionResource(id = R.dimen.padding_large),
                     start = dimensionResource(id = R.dimen.padding_medium)
                 )
 
             ) {
                 Text(
                     text = stringResource(id = uiState.currentPlace.name),
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(5f)
                 )
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.location_icon),
                     contentDescription = null
                 )
-                Text(text = stringResource(id = uiState.currentPlace.address))
+                Text(
+                    text = stringResource(id = uiState.currentPlace.address),
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
             Text(
                 text = stringResource(id = uiState.currentPlace.description),
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Justify,
                 modifier = Modifier.padding(
                     end = dimensionResource(id = R.dimen.padding_large),
                     start = dimensionResource(id = R.dimen.padding_medium)
-                ))
+                )
+            )
             Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 Button(
                     onClick = { onClick },
                     modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-
                 ) {
                     Text(text = "Next")
                     Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
                 }
             }
-
 
 
         }
@@ -107,5 +115,8 @@ fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier 
 @Preview(showBackground = true)
 @Composable
 fun PlaceScreenPreview() {
-    PlaceScreen(uiState = MyCityUiState(), onClick = {}, modifier = Modifier.fillMaxSize())
+    MyCityTheme {
+        PlaceScreen(uiState = MyCityUiState(), onClick = {}, modifier = Modifier.fillMaxSize())
+    }
+
 }
