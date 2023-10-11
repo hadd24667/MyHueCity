@@ -61,12 +61,10 @@ fun MyCityApp(
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(topBar = {
         MyCityAppBar(
-            title= when(currentScreen.name){
-                                           MyCityScreen.PlacesList.name -> uiState.currentCategory.name
-                                            else->R.string.app_name
-                                           }
-
-            ,
+            title = when (currentScreen.name) {
+                MyCityScreen.PlacesList.name -> uiState.currentCategory.name
+                else -> R.string.app_name
+            },
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
@@ -105,7 +103,9 @@ fun MyCityApp(
             ) {
                 PlaceScreen(
                     uiState = uiState,
-                    onClick = { TODO() },
+                    onClick = {
+                        viewModel.updateCurrentPlace(viewModel.getNextPlace())
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)

@@ -41,9 +41,12 @@ import com.example.mycity.ui.theme.Shapes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaceScreen(uiState: MyCityUiState, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun PlaceScreen(uiState: MyCityUiState,
+                onClick: () -> Unit, modifier:
+                Modifier = Modifier) {
 
-    Scaffold(bottomBar = { PlaceNavigationAppBar(nextFunction =  onClick ) }) { innerPadding->
+
+    Scaffold(bottomBar = { PlaceNavigationAppBar(nextFunction =  {onClick() }) }) { innerPadding->
         ConstraintLayout(modifier = modifier.padding(innerPadding)) {
             val (image, card) = createRefs()
             Image(painter = painterResource(id = uiState.currentPlace.photo),
@@ -119,7 +122,7 @@ fun PlaceNavigationAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifie
     BottomAppBar {
         Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
             Button(
-                onClick = { nextFunction },
+                onClick = { nextFunction() },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             ) {
                 Text(text = "Next",

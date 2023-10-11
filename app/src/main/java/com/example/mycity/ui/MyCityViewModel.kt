@@ -39,4 +39,13 @@ class MyCityViewModel : ViewModel() {
         }
     }
 
+    fun getNextPlace(): Place {
+        val placesList = _uiState.value.currentCategory.list
+        val currentIndex = placesList.indexOf(_uiState.value.currentPlace)
+        if (currentIndex < placesList.size - 1) {
+            return placesList[currentIndex + 1]
+        } else {
+            return placesList[0]
+        }
+    }
 }
