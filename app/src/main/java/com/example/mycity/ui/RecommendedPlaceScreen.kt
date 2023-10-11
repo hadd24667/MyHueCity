@@ -122,7 +122,8 @@ fun PlaceNavigationAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifie
                 onClick = { nextFunction },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             ) {
-                Text(text = "Next")
+                Text(text = "Next",
+                    style=MaterialTheme.typography.labelMedium)
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
             }
         }

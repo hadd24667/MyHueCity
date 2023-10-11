@@ -9,30 +9,43 @@ import androidx.compose.ui.unit.sp
 import com.example.mycity.R
 
 val JosefinSans = FontFamily(
-    Font(R.font.josefin_sans_semibold, FontWeight.SemiBold)
+    Font(R.font.josefin_sans_semibold, FontWeight.SemiBold),
+    Font(R.font.josefin_sans_medium, FontWeight.Medium)
+)
+val Gabarito= FontFamily(
+    Font(R.font.gabarito_regular),
+    Font(R.font.gabarito_medium, FontWeight.Medium)
 )
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp,
+        fontFamily = Gabarito,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
 
     titleLarge = TextStyle(
         fontFamily = JosefinSans,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 32.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
-    labelMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+
+    titleMedium = TextStyle(
+        fontFamily = JosefinSans,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
+        fontSize = 24.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = Gabarito,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )

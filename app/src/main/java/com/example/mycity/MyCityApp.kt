@@ -1,5 +1,6 @@
 package com.example.mycity
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,6 +36,7 @@ import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickCategoryScreen
 import com.example.mycity.ui.PickPlaceScreen
 import com.example.mycity.ui.PlaceScreen
+import com.example.mycity.ui.theme.MyCityTheme
 
 
 enum class MyCityScreen {
@@ -43,7 +46,7 @@ enum class MyCityScreen {
 
 }
 
-@Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCityApp(
@@ -55,16 +58,22 @@ fun MyCityApp(
     val currentScreen = MyCityScreen.valueOf(
         backStackEntry?.destination?.route ?: MyCityScreen.Start.name
     )
-
+    val uiState by viewModel.uiState.collectAsState()
     Scaffold(topBar = {
         MyCityAppBar(
+            title= when(currentScreen.name){
+                                           MyCityScreen.PlacesList.name -> uiState.currentCategory.name
+                                            else->R.string.app_name
+                                           }
+
+            ,
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
         )
     }
     ) { innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
+
 
         NavHost(navController = navController, startDestination = MyCityScreen.Start.name) {
             composable(
@@ -110,6 +119,7 @@ fun MyCityApp(
 @Composable
 fun MyCityAppBar(
     modifier: Modifier = Modifier,
+    @StringRes title: Int = R.string.app_name,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit
 ) {
@@ -128,7 +138,11 @@ fun MyCityAppBar(
                         end = dimensionResource(id = R.dimen.padding_medium)
                     )
             )
-            Text(text = stringResource(id = R.string.app_name), modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(id = title),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
 
         }
     },
@@ -145,3 +159,10 @@ fun MyCityAppBar(
         })
 }
 
+@Preview
+@Composable
+fun MyAppPreview() {
+    MyCityTheme {
+        MyCityApp()
+    }
+}

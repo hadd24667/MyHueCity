@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -70,8 +71,14 @@ fun CategoryCard(
                 modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_medium))
             )
             Column {
-                Text(text = stringResource(id = category.name))
-                Text(text = "Number of ${stringResource(id = category.name).lowercase()}: " + category.list.size.toString())
+                Text(
+                    text = stringResource(id = category.name),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "Number of ${stringResource(id = category.name).lowercase()}: " + category.list.size.toString(),
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
 
         }
