@@ -33,7 +33,7 @@ fun PickPlaceScreen(
     uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
         items(uiState.currentCategory.list) {
             PlaceCard(
                 place = it,

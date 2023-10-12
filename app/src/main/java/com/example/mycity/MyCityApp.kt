@@ -2,6 +2,7 @@ package com.example.mycity
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,13 +10,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -67,9 +73,23 @@ fun MyCityApp(
             },
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
         )
-    }
+    },
+        bottomBar = {
+            if (currentScreen.name != MyCityScreen.Start.name) {
+                NextButtonAppBar(nextFunction = {
+                    when (currentScreen.name) {
+                        MyCityScreen.PlacesList.name -> {
+                            viewModel.updateCurrentCategory(viewModel.getNextCategory())
+                        }
+
+                        else -> {
+                            viewModel.updateCurrentPlace(viewModel.getNextPlace())
+                        }
+                    }
+                })
+            }
+        }
     ) { innerPadding ->
 
 
@@ -103,9 +123,6 @@ fun MyCityApp(
             ) {
                 PlaceScreen(
                     uiState = uiState,
-                    onClick = {
-                        viewModel.updateCurrentPlace(viewModel.getNextPlace())
-                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
@@ -123,29 +140,31 @@ fun MyCityAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit
 ) {
-    TopAppBar(title = {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.emblem_of_yerevan),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(70.dp)
-                    .padding(
-                        start = dimensionResource(id = R.dimen.padding_medium),
-                        end = dimensionResource(id = R.dimen.padding_medium)
-                    )
-            )
-            Text(
-                text = stringResource(id = title),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.weight(1f)
-            )
+    TopAppBar(
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
 
-        }
-    },
+                Text(
+                    text = stringResource(id = title),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.emblem_of_yerevan),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .padding(
+                            start = dimensionResource(id = R.dimen.padding_medium)
+                        )
+                )
+            }
+        },
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
@@ -159,10 +178,30 @@ fun MyCityAppBar(
         })
 }
 
+@Composable
+fun NextButtonAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
+    BottomAppBar {
+        Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
+            Button(
+                onClick = { nextFunction() },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+            ) {
+                Text(
+                    text = stringResource(id = R.string.next_button),
+                    style = MaterialTheme.typography.labelMedium
+                )
+                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun MyAppPreview() {
     MyCityTheme {
-        MyCityApp()
+        Surface(color = MaterialTheme.colorScheme.background) {
+            MyCityApp()
+        }
     }
 }
