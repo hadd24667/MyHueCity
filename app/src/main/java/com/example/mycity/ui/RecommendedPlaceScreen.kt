@@ -46,7 +46,7 @@ fun PlaceScreen(uiState: MyCityUiState,
                 Modifier = Modifier) {
 
 
-    Scaffold(bottomBar = { PlaceNavigationAppBar(nextFunction =  {onClick() }) }) { innerPadding->
+    Scaffold(bottomBar = { NextButtonAppBar(nextFunction =  {onClick() }) }) { innerPadding->
         ConstraintLayout(modifier = modifier.padding(innerPadding)) {
             val (image, card) = createRefs()
             Image(painter = painterResource(id = uiState.currentPlace.photo),
@@ -118,7 +118,7 @@ fun PlaceScreen(uiState: MyCityUiState,
 }
 
 @Composable
-fun PlaceNavigationAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
+fun NextButtonAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
     BottomAppBar {
         Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
             Button(

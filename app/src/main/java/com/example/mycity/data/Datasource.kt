@@ -35,7 +35,7 @@ object Datasource {
         )
     )
 
-    val barsCategory = Category(
+    private val barsCategory = Category(
         name = R.string.bars_category,
         icon = R.drawable.bar_icon,
         list = listOf(
@@ -53,7 +53,7 @@ object Datasource {
             )
         )
     )
-    val parksCategory=Category(
+    private val parksCategory=Category(
         name=R.string.parks_category,
         icon = R.drawable.nature_icon,
         list=listOf(
@@ -71,7 +71,7 @@ object Datasource {
             )
         )
     )
-    val shopsCategory=Category(
+    private val shopsCategory=Category(
         name=R.string.shops_category,
         icon=R.drawable.shops_icon,
         list = listOf(
@@ -96,7 +96,7 @@ object Datasource {
         )
     )
 
-    val attractionsCategory= Category(
+    private val attractionsCategory= Category(
         name = R.string.attractions_category,
         icon = R.drawable.attractions_icon,
         list = listOf(
