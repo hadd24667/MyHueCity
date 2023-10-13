@@ -44,7 +44,7 @@ fun PickCategoryScreen(
             AnimatedVisibility(
                 visible = visible,
                 exit = slideOutHorizontally(animationSpec = tween(durationMillis = 500*index)) { full ->
-                    3*full
+                    -3*full
                 }
             ) {
                 CategoryCard(category = it, modifier = Modifier

@@ -1,5 +1,8 @@
 package com.example.mycity.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +15,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,24 +40,36 @@ fun PickPlaceScreen(
     uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {
+    var visible by remember {
+        mutableStateOf(true)
+    }
+    var index = 1
     LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
         items(uiState.currentCategory.list) {
-            PlaceCard(
-                place = it,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        bottom = dimensionResource(
-                            id = R.dimen.padding_small
+            AnimatedVisibility(
+                visible = visible,
+                exit = slideOutHorizontally(animationSpec = tween(durationMillis = 500 * index)) { full ->
+                    -3 * full
+                }) {
+                PlaceCard(
+                    place = it,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            bottom = dimensionResource(
+                                id = R.dimen.padding_small
+                            ),
+                            start = dimensionResource(id = R.dimen.padding_medium),
+                            end = dimensionResource(id = R.dimen.padding_medium)
                         ),
-                        start = dimensionResource(id = R.dimen.padding_medium),
-                        end = dimensionResource(id = R.dimen.padding_medium)
-                    ),
-                onClick = {
-                    viewModel.updateCurrentPlace(it)
-                    navigateFunction()
-                }
-            )
+                    onClick = {
+                        visible = false
+                        viewModel.updateCurrentPlace(it)
+                        navigateFunction()
+                    }
+                )
+                index++
+            }
         }
     }
 
