@@ -1,6 +1,13 @@
 package com.example.mycity.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,21 +46,35 @@ import com.example.mycity.ui.theme.Shapes
 fun PlaceScreen(
     uiState: MyCityUiState, modifier: Modifier = Modifier
 ) {
-
-
     ConstraintLayout(modifier = modifier) {
         val (image, card) = createRefs()
-        Image(painter = painterResource(id = uiState.currentPlace.photo),
-            contentScale = ContentScale.FillWidth,
-            contentDescription = null,
-            modifier = Modifier
+        AnimatedContent(targetState = uiState.currentPlace.photo, label = "",
+            transitionSpec = {
+                fadeIn(
+                    animationSpec = tween(durationMillis = 500)
+                ) togetherWith fadeOut(
+                    animationSpec = tween(durationMillis = 500)
+                )
+            }, modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(image) {
                     top.linkTo(parent.top)
-                })
+                }) { targetPhoto ->
+            Image(
+                painter = painterResource(id = targetPhoto),
+                contentScale = ContentScale.FillWidth,
+                contentDescription = null
+            )
+        }
+
         Card(shape = RoundedCornerShape(topEnd = dimensionResource(id = R.dimen.padding_place_card)),
             modifier = Modifier
-                .animateContentSize()
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    )
+                )
                 .constrainAs(card) {
                     top.linkTo(image.bottom, margin = (-60).dp)
                     bottom.linkTo(parent.bottom)

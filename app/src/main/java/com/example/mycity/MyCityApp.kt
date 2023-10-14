@@ -22,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,10 +53,9 @@ enum class MyCityScreen {
 
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCityApp(
+    windowSize:WindowWidthSizeClass,
     navController: NavHostController = rememberNavController(),
     viewModel: MyCityViewModel = viewModel()
 ) {
@@ -69,6 +69,7 @@ fun MyCityApp(
         MyCityAppBar(
             title = when (currentScreen.name) {
                 MyCityScreen.PlacesList.name -> uiState.currentCategory.name
+                MyCityScreen.Place.name -> uiState.currentCategory.name
                 else -> R.string.app_name
             },
             canNavigateBack = navController.previousBackStackEntry != null,
@@ -82,7 +83,6 @@ fun MyCityApp(
                         MyCityScreen.PlacesList.name -> {
                             viewModel.updateCurrentCategory(viewModel.getNextCategory())
                         }
-
                         else -> {
                             viewModel.updateCurrentPlace(viewModel.getNextPlace())
                         }
@@ -201,7 +201,7 @@ fun NextButtonAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
 fun MyAppPreview() {
     MyCityTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            MyCityApp()
+            MyCityApp(windowSize = WindowWidthSizeClass.Compact)
         }
     }
 }

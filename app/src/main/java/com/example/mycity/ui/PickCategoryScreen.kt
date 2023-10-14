@@ -37,8 +37,9 @@ fun PickCategoryScreen(
     uiState: MyCityUiState,
     navigateFunction: () -> Unit,
     modifier: Modifier = Modifier,
-) { var visible by remember { mutableStateOf(true) }
-    var index=1
+) {
+    var visible by remember { mutableStateOf(true) }
+    var index = 1
     LazyColumn(modifier = modifier.padding(top= dimensionResource(id = R.dimen.padding_medium))) {
         items(uiState.categories) {
             AnimatedVisibility(
