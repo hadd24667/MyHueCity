@@ -1,8 +1,10 @@
 package com.example.mycity.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -73,6 +75,43 @@ fun PickPlaceScreen(
         }
     }
 
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ExpandedPickPlaceScreen(
+    viewModel: MyCityViewModel,
+    navigateFunction: () -> Unit,
+    uiState: MyCityUiState,
+    modifier: Modifier = Modifier
+) {
+
+    LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
+        items(uiState.currentCategory.list) {
+            PlaceCard(
+                place = it,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = dimensionResource(
+                            id = R.dimen.padding_small
+                        ),
+                        start = dimensionResource(id = R.dimen.padding_medium),
+                        end = dimensionResource(id = R.dimen.padding_medium)
+                    )
+                    .animateItemPlacement(
+                        animationSpec = tween(
+                            durationMillis = 1000,
+                            easing = LinearOutSlowInEasing,
+                        )
+                    ),
+                onClick = {
+                    viewModel.updateCurrentPlace(it)
+                    navigateFunction()
+                }
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

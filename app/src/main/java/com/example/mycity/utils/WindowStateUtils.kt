@@ -1,5 +1,5 @@
 package com.example.mycity.utils
 
-enum class WindowStateUtils{
+enum class WindowStateContentType{
     ListOnly, ListDetail
 }

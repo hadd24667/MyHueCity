@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,11 +40,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.mycity.ui.ExpandedStartScreen
 import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickCategoryScreen
 import com.example.mycity.ui.PickPlaceScreen
 import com.example.mycity.ui.PlaceScreen
 import com.example.mycity.ui.theme.MyCityTheme
+import com.example.mycity.utils.WindowStateContentType
 
 
 enum class MyCityScreen {
@@ -55,10 +58,14 @@ enum class MyCityScreen {
 
 @Composable
 fun MyCityApp(
-    windowSize:WindowWidthSizeClass,
+    windowSize: WindowWidthSizeClass,
     navController: NavHostController = rememberNavController(),
     viewModel: MyCityViewModel = viewModel()
 ) {
+    val contentType = when (windowSize) {
+        WindowWidthSizeClass.Expanded -> WindowStateContentType.ListDetail
+        else -> WindowStateContentType.ListOnly
+    }
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val currentScreen = MyCityScreen.valueOf(
@@ -83,6 +90,7 @@ fun MyCityApp(
                         MyCityScreen.PlacesList.name -> {
                             viewModel.updateCurrentCategory(viewModel.getNextCategory())
                         }
+
                         else -> {
                             viewModel.updateCurrentPlace(viewModel.getNextPlace())
                         }
@@ -97,26 +105,39 @@ fun MyCityApp(
             composable(
                 route = MyCityScreen.Start.name
             ) {
-                PickCategoryScreen(
-                    viewModel = viewModel,
-                    navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
-                    uiState = uiState,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                )
+                if (contentType == WindowStateContentType.ListDetail) {
+                    ExpandedStartScreen(viewModel = viewModel,
+                        uiState = uiState,
+                        modifier = Modifier.fillMaxSize().
+                        padding(innerPadding))
+                } else {
+                    PickCategoryScreen(
+                        viewModel = viewModel,
+                        navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
+                        uiState = uiState,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
             }
             composable(
                 route = MyCityScreen.PlacesList.name
             ) {
-                PickPlaceScreen(
-                    navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
-                    viewModel = viewModel,
-                    uiState = uiState,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                )
+                if (contentType == WindowStateContentType.ListDetail) {
+                    ExpandedStartScreen(viewModel = viewModel, uiState = uiState)
+
+                } else {
+                    PickPlaceScreen(
+                        navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
+                        viewModel = viewModel,
+                        uiState = uiState,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
+
             }
             composable(
                 route = MyCityScreen.Place.name
@@ -196,12 +217,12 @@ fun NextButtonAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(device = Devices.TABLET)
 @Composable
 fun MyAppPreview() {
     MyCityTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            MyCityApp(windowSize = WindowWidthSizeClass.Compact)
+            MyCityApp(windowSize = WindowWidthSizeClass.Expanded)
         }
     }
 }
