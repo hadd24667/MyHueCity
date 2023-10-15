@@ -6,10 +6,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -141,9 +144,48 @@ fun CategoryCard(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExpandedCategoryCard( category: Category, modifier: Modifier = Modifier, onClick: () -> Unit = {}, colors:CardColors=CardDefaults.cardColors()){
+    Card(
+        colors=colors,
+        onClick = onClick,
+        shape = Shapes.medium,
+        modifier = modifier
+    ) {
+        Row(
+            modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = category.icon),
+                contentDescription = null,
+                modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_medium))
+            )
+            Column {
+                Text(
+                    text = stringResource(id = category.name),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "Number of ${stringResource(id = category.name).lowercase()}: " + category.list.size.toString(),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "",
+                modifier = Modifier.padding(start= dimensionResource(id = R.dimen.padding_medium), end = dimensionResource(
+                    id = R.dimen.padding_medium)
+                ))
+
+        }
+
+    }
+}
+
 @Preview
 @Composable
 fun CategoryCardPreview() {
-    CategoryCard(Datasource.restaurantsCategory)
+    ExpandedCategoryCard(Datasource.restaurantsCategory)
 
 }

@@ -3,6 +3,7 @@ package com.example.mycity.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -27,7 +28,8 @@ fun ExpandedStartScreen(
     ) {
         Card(
             modifier = Modifier
-                .weight(1f).fillMaxHeight()
+                .weight(1f)
+                .fillMaxHeight()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
             shape = MaterialTheme.shapes.medium,
             backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -54,18 +56,13 @@ fun ExpandedStartScreen(
             modifier = Modifier
                 .weight(1f)
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
-            shape = MaterialTheme.shapes.medium,
+            shape = MaterialTheme.shapes.large,
             backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
-            Column(modifier = Modifier.weight(1f).fillMaxHeight()) {
-                ExpandedPickPlaceScreen(
-                    viewModel = viewModel,
-                    navigateFunction = { },
-                    uiState = uiState,
-                    modifier = Modifier.padding(
-                        dimensionResource(id = R.dimen.padding_medium)
-                    )
-                )
+            Column(modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()) {
+                PlaceScreen(uiState = uiState, modifier = Modifier.fillMaxSize())
             }
         }
 

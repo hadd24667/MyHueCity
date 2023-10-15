@@ -124,10 +124,6 @@ fun MyCityApp(
             composable(
                 route = MyCityScreen.PlacesList.name
             ) {
-                if (contentType == WindowStateContentType.ListDetail) {
-                    ExpandedStartScreen(viewModel = viewModel, uiState = uiState)
-
-                } else {
                     PickPlaceScreen(
                         navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
                         viewModel = viewModel,
@@ -136,7 +132,6 @@ fun MyCityApp(
                             .fillMaxSize()
                             .padding(innerPadding)
                     )
-                }
 
             }
             composable(
