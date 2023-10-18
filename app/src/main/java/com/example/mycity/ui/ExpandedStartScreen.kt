@@ -11,10 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mycity.R
+import com.example.mycity.ui.theme.MyCityTheme
 
 
 @Composable
@@ -36,7 +38,7 @@ fun ExpandedStartScreen(
         ) {
             Column {
                 Text(
-                    text = "Categories",
+                    text = stringResource(id = R.string.categories),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onTertiaryContainer,
                     modifier = Modifier.padding(
@@ -70,11 +72,18 @@ fun ExpandedStartScreen(
     }
 }
 
+@Composable
+fun StartScreen(){
+
+}
+
 @Preview(
     device = Devices.TABLET,
     showBackground = true
 )
 @Composable
 fun ExpandedStartScreenPreview() {
-    ExpandedStartScreen(viewModel = viewModel(), uiState = MyCityUiState())
+    MyCityTheme {
+        ExpandedStartScreen(viewModel = viewModel(), uiState = MyCityUiState())
+    }
 }

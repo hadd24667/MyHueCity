@@ -3,6 +3,9 @@ package com.example.mycity.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.StiffnessMedium
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
@@ -41,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mycity.R
 import com.example.mycity.data.Category
-import com.example.mycity.data.Datasource
+import com.example.mycity.ui.theme.MyCityTheme
 import com.example.mycity.ui.theme.Shapes
 
 @Composable
@@ -96,7 +99,10 @@ fun ExpandedPickCategoryScreen(
                 label = "color"
             )
             ExpandedCategoryCard(
-                category = it, modifier = Modifier
+                viewModel = viewModel,
+                uiState = uiState,
+                category = it,
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         bottom = dimensionResource(
@@ -105,9 +111,6 @@ fun ExpandedPickCategoryScreen(
                         start = dimensionResource(id = R.dimen.padding_medium),
                         end = dimensionResource(id = R.dimen.padding_medium)
                     ),
-                onClick = {
-                    viewModel.updateCurrentCategory(it)
-                },
                 colors = CardDefaults.cardColors(
                     containerColor = animatedColor
                 )
@@ -156,12 +159,12 @@ fun CategoryCard(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandedCategoryCard(
+    viewModel: MyCityViewModel,
+    uiState: MyCityUiState,
     category: Category,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
     colors: CardColors = CardDefaults.cardColors()
 ) {
     var expanded by remember {
@@ -170,10 +173,17 @@ fun ExpandedCategoryCard(
     Card(
         colors = colors,
         shape = Shapes.medium,
-        modifier = modifier.animateContentSize()
+        modifier = modifier.animateContentSize(
+            spring(
+                dampingRatio = DampingRatioLowBouncy,
+                stiffness = StiffnessMedium
+            )
+        )
     ) {
         Row(
-            modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            modifier = modifier.padding(
+                start = dimensionResource(id = R.dimen.padding_medium),
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -193,7 +203,7 @@ fun ExpandedCategoryCard(
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = {
-                onClick()
+                viewModel.updateCurrentCategory(category)
                 expanded = !expanded
             }, modifier = Modifier.size(60.dp)) {
                 Icon(
@@ -209,13 +219,25 @@ fun ExpandedCategoryCard(
 
             }
         }
-        ExpandedPickPlaceScreen(viewModel = viewModel() , navigateFunction = { /*TODO*/ }, uiState = MyCityUiState())
+        if (expanded) {
+            ExpandedPickPlaceScreen(
+                viewModel = viewModel,
+                uiState = uiState,
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.padding_place_card),
+                    bottom = dimensionResource(id = R.dimen.padding_medium),
+                    end = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+        }
+
     }
 }
 
 @Preview
 @Composable
-fun CategoryCardPreview() {
-    ExpandedCategoryCard(Datasource.restaurantsCategory)
-
+fun ExpandedScreenPreview() {
+    MyCityTheme {
+        ExpandedPickCategoryScreen(viewModel = viewModel(), uiState = MyCityUiState())
+    }
 }

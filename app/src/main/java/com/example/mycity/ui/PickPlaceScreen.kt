@@ -1,11 +1,11 @@
 package com.example.mycity.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -81,13 +81,12 @@ fun PickPlaceScreen(
 @Composable
 fun ExpandedPickPlaceScreen(
     viewModel: MyCityViewModel,
-    navigateFunction: () -> Unit,
     uiState: MyCityUiState,
     modifier: Modifier = Modifier
 ) {
 
-    LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
-        items(uiState.currentCategory.list) {
+    Column(modifier = modifier) {
+        uiState.currentCategory.list.forEach() {
             PlaceCard(
                 place = it,
                 modifier = Modifier
@@ -98,16 +97,9 @@ fun ExpandedPickPlaceScreen(
                         ),
                         start = dimensionResource(id = R.dimen.padding_medium),
                         end = dimensionResource(id = R.dimen.padding_medium)
-                    )
-                    .animateItemPlacement(
-                        animationSpec = tween(
-                            durationMillis = 1000,
-                            easing = LinearOutSlowInEasing,
-                        )
                     ),
                 onClick = {
                     viewModel.updateCurrentPlace(it)
-                    navigateFunction()
                 }
             )
         }
@@ -123,7 +115,7 @@ fun PlaceCard(
 ) {
     Card(
         modifier = modifier,
-        onClick = onClick,
+        onClick = { onClick() },
         shape = Shapes.medium,
     ) {
         Row(
