@@ -8,6 +8,7 @@ import androidx.compose.animation.core.Spring.StiffnessMedium
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -95,7 +96,7 @@ fun ExpandedPickCategoryScreen(
     LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
         items(uiState.categories) {
             val animatedColor by animateColorAsState(
-                if (it.name == uiState.currentCategory.name) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primaryContainer,
+                if (it.name == uiState.currentCategory.name) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onTertiaryContainer,
                 label = "color"
             )
             ExpandedCategoryCard(
@@ -171,8 +172,11 @@ fun ExpandedCategoryCard(
         mutableStateOf(false)
     }
     Card(
-        colors = colors,
+        colors = if (expanded) colors else CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
         shape = Shapes.medium,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
         modifier = modifier.animateContentSize(
             spring(
                 dampingRatio = DampingRatioLowBouncy,
@@ -205,6 +209,7 @@ fun ExpandedCategoryCard(
             IconButton(onClick = {
                 viewModel.updateCurrentCategory(category)
                 expanded = !expanded
+                if (!expanded) viewModel.updateCurrentPlace(null)
             }, modifier = Modifier.size(60.dp)) {
                 Icon(
                     imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,

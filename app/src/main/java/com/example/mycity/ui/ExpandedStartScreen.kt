@@ -1,5 +1,6 @@
 package com.example.mycity.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,7 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,7 +37,7 @@ fun ExpandedStartScreen(
                 .fillMaxHeight()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
             shape = MaterialTheme.shapes.medium,
-            backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
+            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         ) {
             Column {
                 Text(
@@ -61,10 +64,14 @@ fun ExpandedStartScreen(
             shape = MaterialTheme.shapes.large,
             backgroundColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
-            Column(modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()) {
-                PlaceScreen(uiState = uiState, modifier = Modifier.fillMaxSize())
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {when (uiState.currentPlace){
+                null -> StartScreen(Modifier.fillMaxSize())
+                else->  PlaceScreen(uiState = uiState, modifier = Modifier.fillMaxSize())
+            }
             }
         }
 
@@ -72,9 +79,30 @@ fun ExpandedStartScreen(
     }
 }
 
+@Preview
 @Composable
-fun StartScreen(){
+fun StartScreen(modifier: Modifier = Modifier) {
+    Card(modifier = modifier,
+        backgroundColor= MaterialTheme.colorScheme.primaryContainer,
+        shape = MaterialTheme.shapes.medium) {
+        Column {
+            Image(painter = painterResource(id = R.drawable.yerevan), contentDescription = null)
+            Column(Modifier.padding(dimensionResource(id = R.dimen.padding_medium))) {
+                Text(
+                    text = stringResource(id = R.string.yerevan_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small))
+                )
+                Text(
+                    text = stringResource(id = R.string.yerevan_description),
+                    style=MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Justify
+                )
+            }
 
+        }
+
+    }
 }
 
 @Preview(

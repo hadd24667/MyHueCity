@@ -12,10 +12,5 @@ data class MyCityUiState(
         icon = R.drawable.restaurant_icon,
         list = Datasource.restaurantsCategory.list
     ),
-    val currentPlace: Place = Place(
-        name = R.string.kavkaz_title,
-        description = R.string.kavkaz_description,
-        address = R.string.kavkaz_address,
-        photo = R.drawable.kavkaz
-    )
+    val currentPlace: Place? = null
 )

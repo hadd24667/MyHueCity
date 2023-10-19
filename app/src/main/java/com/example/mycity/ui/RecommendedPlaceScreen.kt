@@ -48,23 +48,25 @@ fun PlaceScreen(
 ) {
     ConstraintLayout(modifier = modifier) {
         val (image, card) = createRefs()
-        AnimatedContent(targetState = uiState.currentPlace.photo, label = "",
-            transitionSpec = {
-                fadeIn(
-                    animationSpec = tween(durationMillis = 500)
-                ) togetherWith fadeOut(
-                    animationSpec = tween(durationMillis = 500)
+        uiState.currentPlace?.let {
+            AnimatedContent(targetState = it.photo, label = "",
+                transitionSpec = {
+                    fadeIn(
+                        animationSpec = tween(durationMillis = 500)
+                    ) togetherWith fadeOut(
+                        animationSpec = tween(durationMillis = 500)
+                    )
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                    }) { targetPhoto ->
+                Image(
+                    painter = painterResource(id = targetPhoto),
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null
                 )
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(image) {
-                    top.linkTo(parent.top)
-                }) { targetPhoto ->
-            Image(
-                painter = painterResource(id = targetPhoto),
-                contentScale = ContentScale.FillWidth,
-                contentDescription = null
-            )
+            }
         }
 
         Card(shape = RoundedCornerShape(topEnd = dimensionResource(id = R.dimen.padding_place_card)),
@@ -87,7 +89,7 @@ fun PlaceScreen(
                 )) {
 
             Text(
-                text = stringResource(id = uiState.currentPlace.name),
+                text = stringResource(id = uiState.currentPlace!!.name),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(
                     end = dimensionResource(id = R.dimen.padding_place_card),

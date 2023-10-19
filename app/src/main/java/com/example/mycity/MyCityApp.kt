@@ -92,7 +92,7 @@ fun MyCityApp(
                         }
 
                         else -> {
-                            viewModel.updateCurrentPlace(viewModel.getNextPlace())
+                            viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) }
                         }
                     }
                 })

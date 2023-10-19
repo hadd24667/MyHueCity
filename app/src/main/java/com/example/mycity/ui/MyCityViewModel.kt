@@ -31,7 +31,7 @@ class MyCityViewModel : ViewModel() {
     }
 
 
-    fun updateCurrentPlace(place: Place) {
+    fun updateCurrentPlace(place: Place?) {
         _uiState.update {
             it.copy(
                 currentPlace = place
@@ -39,8 +39,11 @@ class MyCityViewModel : ViewModel() {
         }
     }
 
-    fun getNextPlace(): Place {
-        return getNext(_uiState.value.currentCategory.list, _uiState.value.currentPlace)
+    fun getNextPlace(): Place? {
+        return if(_uiState.value.currentPlace !=null){
+            getNext(_uiState.value.currentCategory.list, _uiState.value.currentPlace)
+        }else
+            null
     }
 
     fun getNextCategory(): Category {
