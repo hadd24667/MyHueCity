@@ -68,10 +68,14 @@ fun ExpandedStartScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight()
-            ) {when (uiState.currentPlace){
-                null -> StartScreen(Modifier.fillMaxSize())
-                else->  PlaceScreen(uiState = uiState, modifier = Modifier.fillMaxSize())
-            }
+            ) {
+
+                    when (uiState.currentPlace) {
+                        null -> StartScreen(modifier = Modifier.fillMaxSize())
+                        else -> PlaceScreen(uiState = uiState, modifier = Modifier.fillMaxSize())
+                    }
+
+
             }
         }
 
@@ -79,31 +83,34 @@ fun ExpandedStartScreen(
     }
 }
 
-@Preview
+
 @Composable
 fun StartScreen(modifier: Modifier = Modifier) {
-    Card(modifier = modifier,
-        backgroundColor= MaterialTheme.colorScheme.primaryContainer,
-        shape = MaterialTheme.shapes.medium) {
-        Column {
-            Image(painter = painterResource(id = R.drawable.yerevan), contentDescription = null)
-            Column(Modifier.padding(dimensionResource(id = R.dimen.padding_medium))) {
-                Text(
-                    text = stringResource(id = R.string.yerevan_title),
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small))
-                )
-                Text(
-                    text = stringResource(id = R.string.yerevan_description),
-                    style=MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Justify
-                )
+
+        Card(
+            modifier = modifier,
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            shape = MaterialTheme.shapes.medium
+        ) {
+            Column {
+                Image(painter = painterResource(id = R.drawable.yerevan), contentDescription = null)
+                Column(Modifier.padding(dimensionResource(id = R.dimen.padding_medium))) {
+                    Text(
+                        text = stringResource(id = R.string.yerevan_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small))
+                    )
+                    Text(
+                        text = stringResource(id = R.string.yerevan_description),
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Justify
+                    )
+                }
+
             }
 
         }
-
     }
-}
 
 @Preview(
     device = Devices.TABLET,

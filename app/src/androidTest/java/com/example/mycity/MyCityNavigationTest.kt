@@ -1,6 +1,7 @@
 package com.example.mycity
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -23,7 +24,7 @@ class MyCityNavigationTest {
             navController = TestNavHostController(LocalContext.current).apply {
                 navigatorProvider.addNavigator(ComposeNavigator())
             }
-            MyCityApp(navController = navController)
+            MyCityApp(navController = navController, windowSize = WindowWidthSizeClass.Compact)
         }
     }
 

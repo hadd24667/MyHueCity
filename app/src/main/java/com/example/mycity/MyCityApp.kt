@@ -75,8 +75,8 @@ fun MyCityApp(
     Scaffold(topBar = {
         MyCityAppBar(
             title = when (currentScreen.name) {
-                MyCityScreen.PlacesList.name -> uiState.currentCategory.name
-                MyCityScreen.Place.name -> uiState.currentCategory.name
+                MyCityScreen.PlacesList.name -> uiState.currentCategory!!.name
+                MyCityScreen.Place.name -> uiState.currentCategory!!.name
                 else -> R.string.app_name
             },
             canNavigateBack = navController.previousBackStackEntry != null,
@@ -88,7 +88,7 @@ fun MyCityApp(
                 NextButtonAppBar(nextFunction = {
                     when (currentScreen.name) {
                         MyCityScreen.PlacesList.name -> {
-                            viewModel.updateCurrentCategory(viewModel.getNextCategory())
+                            viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
                         }
 
                         else -> {

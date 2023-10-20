@@ -40,14 +40,17 @@ class MyCityViewModel : ViewModel() {
     }
 
     fun getNextPlace(): Place? {
-        return if(_uiState.value.currentPlace !=null){
-            getNext(_uiState.value.currentCategory.list, _uiState.value.currentPlace)
-        }else
+        return if (_uiState.value.currentPlace != null) {
+            getNext(_uiState.value.currentCategory!!.list, _uiState.value.currentPlace)
+        } else
             null
     }
 
-    fun getNextCategory(): Category {
-        return getNext(Datasource.listOfCategories, _uiState.value.currentCategory)
+    fun getNextCategory(): Category? {
+        return if (_uiState.value.currentCategory != null) {
+            getNext(Datasource.listOfCategories, _uiState.value.currentCategory)
+        } else
+            null
     }
 
     private fun <T> getNext(list: List<T>, current: T): T {

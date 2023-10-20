@@ -47,7 +47,7 @@ fun PickPlaceScreen(
     }
     var index = 1
     LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
-        items(uiState.currentCategory.list) {
+        items(uiState.currentCategory!!.list) {
             AnimatedVisibility(
                 visible = visible,
                 exit = slideOutHorizontally(animationSpec = tween(durationMillis = 500 * index)) { full ->
@@ -86,7 +86,7 @@ fun ExpandedPickPlaceScreen(
 ) {
 
     Column(modifier = modifier) {
-        uiState.currentCategory.list.forEach() {
+        uiState.currentCategory!!.list.forEach() {
             PlaceCard(
                 place = it,
                 modifier = Modifier

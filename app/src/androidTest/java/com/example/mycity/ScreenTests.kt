@@ -49,7 +49,7 @@ class ScreenTests {
         composeTestRule.setContent {
             PickPlaceScreen(viewModel = viewModel(), uiState = fakeUiState, navigateFunction = {})
         }
-        fakeUiState.currentCategory.list.forEach{
+        fakeUiState.currentCategory!!.list.forEach{
             composeTestRule.onNodeWithStringId(it.name).assertIsDisplayed()
         }
     }
@@ -57,12 +57,12 @@ class ScreenTests {
     @Test
     fun placeScreen_verifyContent(){
         composeTestRule.setContent {
-            PlaceScreen(uiState = fakeUiState, onClick = {  })
+            PlaceScreen(uiState = fakeUiState)
         }
 
-        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace.name).assertIsDisplayed()
-        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace.description).assertIsDisplayed()
-        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace.address).assertIsDisplayed()
+        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace!!.name).assertIsDisplayed()
+        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace!!.description).assertIsDisplayed()
+        composeTestRule.onNodeWithStringId(fakeUiState.currentPlace!!.address).assertIsDisplayed()
 
     }
 
