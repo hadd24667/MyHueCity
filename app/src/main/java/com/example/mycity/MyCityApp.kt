@@ -4,12 +4,14 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -28,9 +30,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,10 +56,7 @@ import com.example.mycity.utils.WindowStateContentType
 
 
 enum class MyCityScreen {
-    Start,
-    CategoryList,
-    PlacesList,
-    Place
+    Start, CategoryList, PlacesList, Place
 
 }
 
@@ -77,7 +79,7 @@ fun MyCityApp(
     Scaffold(topBar = {
         MyCityAppBar(
             title = when (currentScreen.name) {
-                MyCityScreen.CategoryList.name-> R.string.categories
+                MyCityScreen.CategoryList.name -> R.string.categories
                 MyCityScreen.PlacesList.name -> uiState.currentCategory!!.name
                 MyCityScreen.Place.name -> uiState.currentCategory!!.name
                 else -> R.string.app_name
@@ -85,10 +87,10 @@ fun MyCityApp(
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
         )
-    },
-        bottomBar = {
-            if (currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail) {
-                NextButtonAppBar(nextFunction = {
+    }, bottomBar = {
+        if (currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail) {
+            NavButtonsAppBar(
+                nextFunction = {
                     when (currentScreen.name) {
                         MyCityScreen.Start.name -> {
                             navController.navigate(MyCityScreen.CategoryList.name)
@@ -102,10 +104,38 @@ fun MyCityApp(
                             viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) }
                         }
                     }
-                })
-            }
+                },
+                previousFunction = {
+                    when (currentScreen.name) {
+                        MyCityScreen.PlacesList.name -> {
+                            viewModel.getPreviousCategory()
+                                ?.let { viewModel.updateCurrentCategory(it) }
+                        }
+
+                        MyCityScreen.Place.name -> {
+                            viewModel.getPreviousPlace()?.let { viewModel.updateCurrentPlace(it) }
+                        }
+                    }
+                },
+                hasPreviousButton = when (currentScreen.name) {
+                    MyCityScreen.Start.name -> false
+                    MyCityScreen.CategoryList.name -> false
+                    else -> true
+                },
+                id= when(currentScreen.name){
+                    MyCityScreen.Place.name -> when (uiState.currentCategory?.name){
+                        R.string.restaurants_category -> R.drawable.restaurant_icon
+                        R.string.bars_category -> R.drawable.bar_icon
+                        R.string.shops_category -> R.drawable.shops_icon
+                        R.string.parks_category -> R.drawable.nature_icon
+                        R.string.attractions_category -> R.drawable.attractions_icon
+                        else-> -1
+                    }
+                    else -> -1
+                }
+            )
         }
-    ) { innerPadding ->
+    }) { innerPadding ->
 
 
         NavHost(navController = navController, startDestination = MyCityScreen.Start.name) {
@@ -153,8 +183,7 @@ fun MyCityApp(
                 route = MyCityScreen.Place.name
             ) {
                 PlaceScreen(
-                    uiState = uiState,
-                    modifier = Modifier
+                    uiState = uiState, modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
                 )
@@ -171,8 +200,7 @@ fun MyCityAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit
 ) {
-    TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+    TopAppBar(colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -183,17 +211,21 @@ fun MyCityAppBar(
                 Text(
                     text = stringResource(id = title),
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.emblem_of_yerevan),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .padding(
-                            start = dimensionResource(id = R.dimen.padding_medium)
-                        )
-                )
+                if (title == R.string.app_name) {
+                    Image(
+                        painter = painterResource(id = R.drawable.emblem_of_yerevan),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(
+                                end = dimensionResource(id = R.dimen.padding_medium)
+                            )
+                    )
+                }
             }
         },
         modifier = modifier,
@@ -210,20 +242,45 @@ fun MyCityAppBar(
 }
 
 @Composable
-fun NextButtonAppBar(nextFunction: () -> Unit, modifier: Modifier = Modifier) {
+fun NavButtonsAppBar(
+    nextFunction: () -> Unit,
+    modifier: Modifier = Modifier,
+    id: Int = -1,
+    hasPreviousButton: Boolean,
+    previousFunction: () -> Unit = {}
+) {
     BottomAppBar {
         Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
-            Button(
-                onClick = { nextFunction() },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-            ) {
-                Text(
-                    text = stringResource(id = R.string.next_button),
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
+            if (hasPreviousButton) {
+                NavButton(onClick = previousFunction, id = id, isNextButton = false)
+                Spacer(modifier = Modifier.weight(1f))
             }
+
+            NavButton(onClick = nextFunction, id = id, isNextButton = true)
+
+
         }
+    }
+}
+
+@Composable
+fun NavButton(onClick: () -> Unit, id: Int, isNextButton: Boolean) {
+    Button(
+        onClick = { onClick() },
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        Text(
+            text = if (isNextButton) stringResource(id = R.string.next_button) else stringResource(
+                id = R.string.previous_button
+            ), style = MaterialTheme.typography.labelMedium
+        )
+        if (id != -1) Icon(
+            imageVector = ImageVector.vectorResource(id = id), contentDescription = null
+        )
+        Icon(
+            imageVector = if (isNextButton) Icons.Default.KeyboardArrowRight else Icons.Default.KeyboardArrowLeft,
+            contentDescription = null
+        )
     }
 }
 

@@ -45,10 +45,22 @@ class MyCityViewModel : ViewModel() {
         } else
             null
     }
+    fun getPreviousPlace(): Place? {
+        return if (_uiState.value.currentPlace != null) {
+            getPrevious(_uiState.value.currentCategory!!.list, _uiState.value.currentPlace)
+        } else
+            null
+    }
 
     fun getNextCategory(): Category? {
         return if (_uiState.value.currentCategory != null) {
             getNext(Datasource.listOfCategories, _uiState.value.currentCategory)
+        } else
+            null
+    }
+    fun getPreviousCategory(): Category? {
+        return if (_uiState.value.currentCategory != null) {
+            getPrevious(Datasource.listOfCategories, _uiState.value.currentCategory)
         } else
             null
     }
@@ -59,6 +71,15 @@ class MyCityViewModel : ViewModel() {
             list[currentIndex + 1]
         } else {
             list[0]
+        }
+    }
+
+    private fun <T> getPrevious(list: List<T>, current: T): T {
+        val currentIndex = list.indexOf(current)
+        return if (currentIndex > 0) {
+            list[currentIndex - 1]
+        } else {
+            list[list.size - 1]
         }
     }
 }
