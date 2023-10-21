@@ -45,12 +45,14 @@ import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickCategoryScreen
 import com.example.mycity.ui.PickPlaceScreen
 import com.example.mycity.ui.PlaceScreen
+import com.example.mycity.ui.StartScreen
 import com.example.mycity.ui.theme.MyCityTheme
 import com.example.mycity.utils.WindowStateContentType
 
 
 enum class MyCityScreen {
     Start,
+    CategoryList,
     PlacesList,
     Place
 
@@ -75,6 +77,7 @@ fun MyCityApp(
     Scaffold(topBar = {
         MyCityAppBar(
             title = when (currentScreen.name) {
+                MyCityScreen.CategoryList.name-> R.string.categories
                 MyCityScreen.PlacesList.name -> uiState.currentCategory!!.name
                 MyCityScreen.Place.name -> uiState.currentCategory!!.name
                 else -> R.string.app_name
@@ -84,9 +87,13 @@ fun MyCityApp(
         )
     },
         bottomBar = {
-            if (currentScreen.name != MyCityScreen.Start.name) {
+            if (currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail) {
                 NextButtonAppBar(nextFunction = {
                     when (currentScreen.name) {
+                        MyCityScreen.Start.name -> {
+                            navController.navigate(MyCityScreen.CategoryList.name)
+                        }
+
                         MyCityScreen.PlacesList.name -> {
                             viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
                         }
@@ -106,32 +113,40 @@ fun MyCityApp(
                 route = MyCityScreen.Start.name
             ) {
                 if (contentType == WindowStateContentType.ListDetail) {
-                    ExpandedStartScreen(viewModel = viewModel,
-                        uiState = uiState,
-                        modifier = Modifier.fillMaxSize().
-                        padding(innerPadding))
-                } else {
-                    PickCategoryScreen(
+                    ExpandedStartScreen(
                         viewModel = viewModel,
-                        navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
                         uiState = uiState,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     )
+                } else {
+                    StartScreen(modifier = Modifier.fillMaxSize())
                 }
+            }
+            composable(
+                route = MyCityScreen.CategoryList.name
+            ) {
+                PickCategoryScreen(
+                    viewModel = viewModel,
+                    navigateFunction = { navController.navigate(MyCityScreen.PlacesList.name) },
+                    uiState = uiState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
             }
             composable(
                 route = MyCityScreen.PlacesList.name
             ) {
-                    PickPlaceScreen(
-                        navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
-                        viewModel = viewModel,
-                        uiState = uiState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
+                PickPlaceScreen(
+                    navigateFunction = { navController.navigate(MyCityScreen.Place.name) },
+                    viewModel = viewModel,
+                    uiState = uiState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
 
             }
             composable(
