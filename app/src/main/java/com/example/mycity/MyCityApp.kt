@@ -89,50 +89,72 @@ fun MyCityApp(
         )
     }, bottomBar = {
         if (currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail) {
-            NavButtonsAppBar(
-                nextFunction = {
-                    when (currentScreen.name) {
-                        MyCityScreen.Start.name -> {
-                            navController.navigate(MyCityScreen.CategoryList.name)
-                        }
-
-                        MyCityScreen.PlacesList.name -> {
-                            viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
-                        }
-
-                        else -> {
-                            viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) }
-                        }
+            NavButtonsAppBar(nextFunction = {
+                when (currentScreen.name) {
+                    MyCityScreen.Start.name -> {
+                        navController.navigate(MyCityScreen.CategoryList.name)
                     }
-                },
-                previousFunction = {
-                    when (currentScreen.name) {
-                        MyCityScreen.PlacesList.name -> {
-                            viewModel.getPreviousCategory()
-                                ?.let { viewModel.updateCurrentCategory(it) }
-                        }
 
-                        MyCityScreen.Place.name -> {
-                            viewModel.getPreviousPlace()?.let { viewModel.updateCurrentPlace(it) }
-                        }
+                    MyCityScreen.PlacesList.name -> {
+                        viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
                     }
-                },
-                hasPreviousButton = when (currentScreen.name) {
-                    MyCityScreen.Start.name -> false
-                    MyCityScreen.CategoryList.name -> false
-                    else -> true
-                },
-                id= when(currentScreen.name){
-                    MyCityScreen.Place.name -> when (uiState.currentCategory?.name){
-                        R.string.restaurants_category -> R.drawable.restaurant_icon
-                        R.string.bars_category -> R.drawable.bar_icon
-                        R.string.shops_category -> R.drawable.shops_icon
-                        R.string.parks_category -> R.drawable.nature_icon
-                        R.string.attractions_category -> R.drawable.attractions_icon
-                        else-> -1
+
+                    else -> {
+                        viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) }
                     }
+                }
+            }, previousFunction = {
+                when (currentScreen.name) {
+                    MyCityScreen.PlacesList.name -> {
+                        viewModel.getPreviousCategory()?.let { viewModel.updateCurrentCategory(it) }
+                    }
+
+                    MyCityScreen.Place.name -> {
+                        viewModel.getPreviousPlace()?.let { viewModel.updateCurrentPlace(it) }
+                    }
+                }
+            }, hasPreviousButton = when (currentScreen.name) {
+                MyCityScreen.Start.name -> false
+                MyCityScreen.CategoryList.name -> false
+                else -> true
+            }, nextImageId = when (currentScreen.name) {
+                MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
+                    R.string.restaurants_category -> R.drawable.restaurant_icon
+                    R.string.bars_category -> R.drawable.bar_icon
+                    R.string.shops_category -> R.drawable.shops_icon
+                    R.string.parks_category -> R.drawable.nature_icon
+                    R.string.attractions_category -> R.drawable.attractions_icon
                     else -> -1
                 }
+                MyCityScreen.PlacesList.name -> when(viewModel.getNextCategory()?.name){
+                    R.string.restaurants_category -> R.drawable.restaurant_icon
+                    R.string.bars_category -> R.drawable.bar_icon
+                    R.string.shops_category -> R.drawable.shops_icon
+                    R.string.parks_category -> R.drawable.nature_icon
+                    R.string.attractions_category -> R.drawable.attractions_icon
+                    else -> -1
+                }
+                else -> -1
+            },
+            previousImageId = when (currentScreen.name) {
+                MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
+                    R.string.restaurants_category -> R.drawable.restaurant_icon
+                    R.string.bars_category -> R.drawable.bar_icon
+                    R.string.shops_category -> R.drawable.shops_icon
+                    R.string.parks_category -> R.drawable.nature_icon
+                    R.string.attractions_category -> R.drawable.attractions_icon
+                    else -> -1
+                }
+                MyCityScreen.PlacesList.name -> when(viewModel.getPreviousCategory()?.name){
+                    R.string.restaurants_category -> R.drawable.restaurant_icon
+                    R.string.bars_category -> R.drawable.bar_icon
+                    R.string.shops_category -> R.drawable.shops_icon
+                    R.string.parks_category -> R.drawable.nature_icon
+                    R.string.attractions_category -> R.drawable.attractions_icon
+                    else -> -1
+                }
+                else -> -1
+            }
             )
         }
     }) { innerPadding ->
@@ -245,18 +267,19 @@ fun MyCityAppBar(
 fun NavButtonsAppBar(
     nextFunction: () -> Unit,
     modifier: Modifier = Modifier,
-    id: Int = -1,
+    nextImageId: Int = -1,
+    previousImageId: Int = -1,
     hasPreviousButton: Boolean,
     previousFunction: () -> Unit = {}
 ) {
     BottomAppBar {
         Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
             if (hasPreviousButton) {
-                NavButton(onClick = previousFunction, id = id, isNextButton = false)
+                PreviousButton(onClick = previousFunction, imageId=previousImageId)
                 Spacer(modifier = Modifier.weight(1f))
             }
 
-            NavButton(onClick = nextFunction, id = id, isNextButton = true)
+            NextButton(onClick = nextFunction, imageId = nextImageId)
 
 
         }
@@ -264,29 +287,65 @@ fun NavButtonsAppBar(
 }
 
 @Composable
-fun NavButton(onClick: () -> Unit, id: Int, isNextButton: Boolean) {
+fun NextButton(onClick: () -> Unit, imageId: Int, modifier: Modifier = Modifier) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
     ) {
         Text(
-            text = if (isNextButton) stringResource(id = R.string.next_button) else stringResource(
-                id = R.string.previous_button
-            ), style = MaterialTheme.typography.labelMedium
+            text = stringResource(id = R.string.next_button),
+            style = MaterialTheme.typography.labelMedium
         )
-        if (id != -1) Icon(
-            imageVector = ImageVector.vectorResource(id = id), contentDescription = null
+        if (imageId != -1) Icon(
+            imageVector = ImageVector.vectorResource(id = imageId),
+            contentDescription = null,
+            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_small))
         )
         Icon(
-            imageVector = if (isNextButton) Icons.Default.KeyboardArrowRight else Icons.Default.KeyboardArrowLeft,
-            contentDescription = null
+            imageVector = Icons.Default.KeyboardArrowRight,
+            contentDescription = null,
         )
+    }
+
+}
+
+@Composable
+fun PreviousButton(onClick: () -> Unit, imageId: Int, modifier: Modifier = Modifier) {
+    Button(
+        onClick = { onClick() },
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowLeft,
+            contentDescription = null,
+        )
+        Icon(
+            imageVector = ImageVector.vectorResource(id = imageId),
+            contentDescription = null,
+            modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_small))
+        )
+        Text(
+            text = stringResource(id = R.string.previous_button),
+            style = MaterialTheme.typography.labelMedium
+        )
+
+    }
+}
+
+@Preview
+@Composable
+fun MyAppPreview() {
+    MyCityTheme {
+        Surface(color = MaterialTheme.colorScheme.background) {
+            MyCityApp(windowSize = WindowWidthSizeClass.Compact)
+        }
     }
 }
 
 @Preview(device = Devices.TABLET)
 @Composable
-fun MyAppPreview() {
+fun MyAppExpandedPreview() {
     MyCityTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             MyCityApp(windowSize = WindowWidthSizeClass.Expanded)
