@@ -110,7 +110,7 @@ fun ExpandedCategoryCard(
             }
         }
         if (shouldBeExpanded) {
-            ExpandedPickPlaceScreen(
+            ExpandedPickPlaceColumn(
                 viewModel = viewModel,
                 uiState = uiState,
                 modifier = Modifier.padding(
@@ -121,6 +121,34 @@ fun ExpandedCategoryCard(
             )
         }
 
+    }
+}
+
+@Composable
+fun ExpandedPickPlaceColumn(
+    viewModel: MyCityViewModel,
+    uiState: MyCityUiState,
+    modifier: Modifier = Modifier
+) {
+
+    Column(modifier = modifier) {
+        uiState.currentCategory!!.list.forEach {
+            PlaceCard(
+                place = it,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = dimensionResource(
+                            id = R.dimen.padding_small
+                        ),
+                        start = dimensionResource(id = R.dimen.padding_medium),
+                        end = dimensionResource(id = R.dimen.padding_medium)
+                    ),
+                onClick = {
+                    viewModel.updateCurrentPlace(it)
+                }
+            )
+        }
     }
 }
 

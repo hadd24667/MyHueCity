@@ -1,11 +1,15 @@
 package com.example.mycity.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,65 +50,51 @@ fun PickPlaceScreen(
         mutableStateOf(true)
     }
     var index = 1
-    LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
-        items(uiState.currentCategory!!.list) {
-            AnimatedVisibility(
-                visible = visible,
-                exit = slideOutHorizontally(animationSpec = tween(durationMillis = 500 * index)) { full ->
-                    -3 * full
-                }) {
-                PlaceCard(
-                    place = it,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            bottom = dimensionResource(
-                                id = R.dimen.padding_small
+    AnimatedContent(targetState = uiState.currentCategory,
+        label = "",
+        transitionSpec = {
+            (slideInVertically(animationSpec = tween(durationMillis = 1000)) { height -> height }
+                    + fadeIn(animationSpec = tween(durationMillis = 500)))
+                .togetherWith(slideOutVertically(animationSpec = tween(durationMillis = 1000)) { height -> -height } + fadeOut(
+                    animationSpec = tween(durationMillis = 500)
+                ))
+
+        }) {
+        LazyColumn(modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))) {
+            items(it!!.list) {
+                AnimatedVisibility(
+                    visible = visible,
+                    exit = slideOutHorizontally(animationSpec = tween(durationMillis = 500 * index)) { full ->
+                        -3 * full
+                    }) {
+                    PlaceCard(
+                        place = it,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                bottom = dimensionResource(
+                                    id = R.dimen.padding_small
+                                ),
+                                start = dimensionResource(id = R.dimen.padding_medium),
+                                end = dimensionResource(id = R.dimen.padding_medium)
                             ),
-                            start = dimensionResource(id = R.dimen.padding_medium),
-                            end = dimensionResource(id = R.dimen.padding_medium)
-                        ),
-                    onClick = {
-                        visible = false
-                        viewModel.updateCurrentPlace(it)
-                        navigateFunction()
-                    }
-                )
-                index++
+                        onClick = {
+                            visible = false
+                            viewModel.updateCurrentPlace(it)
+                            navigateFunction()
+                        }
+                    )
+                    index++
+                }
             }
         }
+
     }
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun ExpandedPickPlaceScreen(
-    viewModel: MyCityViewModel,
-    uiState: MyCityUiState,
-    modifier: Modifier = Modifier
-) {
 
-    Column(modifier = modifier) {
-        uiState.currentCategory!!.list.forEach() {
-            PlaceCard(
-                place = it,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        bottom = dimensionResource(
-                            id = R.dimen.padding_small
-                        ),
-                        start = dimensionResource(id = R.dimen.padding_medium),
-                        end = dimensionResource(id = R.dimen.padding_medium)
-                    ),
-                onClick = {
-                    viewModel.updateCurrentPlace(it)
-                }
-            )
-        }
-    }
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
