@@ -125,7 +125,7 @@ fun ExpandedCategoryCard(
 }
 
 @Composable
-fun ExpandedPickPlaceColumn(
+private fun ExpandedPickPlaceColumn(
     viewModel: MyCityViewModel,
     uiState: MyCityUiState,
     modifier: Modifier = Modifier

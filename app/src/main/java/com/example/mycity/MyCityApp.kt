@@ -126,35 +126,40 @@ fun MyCityApp(
                     R.string.attractions_category -> R.drawable.attractions_icon
                     else -> -1
                 }
-                MyCityScreen.PlacesList.name -> when(viewModel.getNextCategory()?.name){
-                    R.string.restaurants_category -> R.drawable.restaurant_icon
-                    R.string.bars_category -> R.drawable.bar_icon
-                    R.string.shops_category -> R.drawable.shops_icon
-                    R.string.parks_category -> R.drawable.nature_icon
-                    R.string.attractions_category -> R.drawable.attractions_icon
-                    else -> -1
-                }
+
+                MyCityScreen.PlacesList.name -> if (uiState.currentCategory != null) {
+                    when (viewModel.getNextCategory()?.name) {
+                        R.string.restaurants_category -> R.drawable.restaurant_icon
+                        R.string.bars_category -> R.drawable.bar_icon
+                        R.string.shops_category -> R.drawable.shops_icon
+                        R.string.parks_category -> R.drawable.nature_icon
+                        R.string.attractions_category -> R.drawable.attractions_icon
+                        else -> -1
+                    }
+                } else -1
                 else -> -1
             },
-            previousImageId = when (currentScreen.name) {
-                MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
-                    R.string.restaurants_category -> R.drawable.restaurant_icon
-                    R.string.bars_category -> R.drawable.bar_icon
-                    R.string.shops_category -> R.drawable.shops_icon
-                    R.string.parks_category -> R.drawable.nature_icon
-                    R.string.attractions_category -> R.drawable.attractions_icon
+                previousImageId = when (currentScreen.name) {
+                    MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
+                        R.string.restaurants_category -> R.drawable.restaurant_icon
+                        R.string.bars_category -> R.drawable.bar_icon
+                        R.string.shops_category -> R.drawable.shops_icon
+                        R.string.parks_category -> R.drawable.nature_icon
+                        R.string.attractions_category -> R.drawable.attractions_icon
+                        else -> -1
+                    }
+
+                    MyCityScreen.PlacesList.name -> when (viewModel.getPreviousCategory()?.name) {
+                        R.string.restaurants_category -> R.drawable.restaurant_icon
+                        R.string.bars_category -> R.drawable.bar_icon
+                        R.string.shops_category -> R.drawable.shops_icon
+                        R.string.parks_category -> R.drawable.nature_icon
+                        R.string.attractions_category -> R.drawable.attractions_icon
+                        else -> -1
+                    }
+
                     else -> -1
                 }
-                MyCityScreen.PlacesList.name -> when(viewModel.getPreviousCategory()?.name){
-                    R.string.restaurants_category -> R.drawable.restaurant_icon
-                    R.string.bars_category -> R.drawable.bar_icon
-                    R.string.shops_category -> R.drawable.shops_icon
-                    R.string.parks_category -> R.drawable.nature_icon
-                    R.string.attractions_category -> R.drawable.attractions_icon
-                    else -> -1
-                }
-                else -> -1
-            }
             )
         }
     }) { innerPadding ->
@@ -275,7 +280,7 @@ fun NavButtonsAppBar(
     BottomAppBar {
         Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth()) {
             if (hasPreviousButton) {
-                PreviousButton(onClick = previousFunction, imageId=previousImageId)
+                PreviousButton(onClick = previousFunction, imageId = previousImageId)
                 Spacer(modifier = Modifier.weight(1f))
             }
 

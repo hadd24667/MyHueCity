@@ -7,6 +7,6 @@ import com.example.mycity.data.Place
 data class MyCityUiState(
     val categories: List<Category> = Datasource.listOfCategories,
     val currentCategory: Category? = null,
-    val currentPlace: Place? = null,
+    val currentPlace: Place? = null
 )
 
