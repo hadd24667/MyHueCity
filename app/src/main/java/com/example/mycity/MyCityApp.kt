@@ -45,7 +45,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.mycity.data.Category
 import com.example.mycity.ui.ExpandedStartScreen
+import com.example.mycity.ui.MyCityUiState
 import com.example.mycity.ui.MyCityViewModel
 import com.example.mycity.ui.PickCategoryScreen
 import com.example.mycity.ui.PickPlaceScreen
@@ -78,89 +80,47 @@ fun MyCityApp(
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(topBar = {
         MyCityAppBar(
-            title = when (currentScreen.name) {
-                MyCityScreen.CategoryList.name -> R.string.categories
-                MyCityScreen.PlacesList.name -> uiState.currentCategory!!.name
-                MyCityScreen.Place.name -> uiState.currentCategory!!.name
-                else -> R.string.app_name
-            },
+            title = determineTopBarTitle(currentScreen.name, uiState),
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
         )
     }, bottomBar = {
-        if (currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail) {
-            NavButtonsAppBar(nextFunction = {
-                when (currentScreen.name) {
-                    MyCityScreen.Start.name -> {
-                        navController.navigate(MyCityScreen.CategoryList.name)
-                    }
+        if (shouldButtonsAppear(currentScreen, contentType)) {
 
-                    MyCityScreen.PlacesList.name -> {
-                        viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
-                    }
-
-                    else -> {
-                        viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) }
-                    }
+            when (currentScreen.name) {
+                MyCityScreen.Start.name -> {
+                    NavButtonsAppBar(
+                        nextFunction = { navController.navigate(MyCityScreen.CategoryList.name) },
+                        hasPreviousButton = false
+                    )
                 }
-            }, previousFunction = {
-                when (currentScreen.name) {
-                    MyCityScreen.PlacesList.name -> {
-                        viewModel.getPreviousCategory()?.let { viewModel.updateCurrentCategory(it) }
-                    }
-
-                    MyCityScreen.Place.name -> {
-                        viewModel.getPreviousPlace()?.let { viewModel.updateCurrentPlace(it) }
-                    }
-                }
-            }, hasPreviousButton = when (currentScreen.name) {
-                MyCityScreen.Start.name -> false
-                MyCityScreen.CategoryList.name -> false
-                else -> true
-            }, nextImageId = when (currentScreen.name) {
-                MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
-                    R.string.restaurants_category -> R.drawable.restaurant_icon
-                    R.string.bars_category -> R.drawable.bar_icon
-                    R.string.shops_category -> R.drawable.shops_icon
-                    R.string.parks_category -> R.drawable.nature_icon
-                    R.string.attractions_category -> R.drawable.attractions_icon
-                    else -> -1
+                MyCityScreen.PlacesList.name -> {
+                    NavButtonsAppBar(
+                        nextFunction = {
+                            viewModel.getNextCategory()?.let { viewModel.updateCurrentCategory(it) }
+                        },
+                        hasPreviousButton = true,
+                        previousFunction = {
+                            viewModel.getPreviousCategory()
+                                ?.let { viewModel.updateCurrentCategory(it) }
+                        },
+                        nextImageId = if (uiState.currentCategory != null) {
+                            determineIcon(viewModel.getNextCategory())
+                        } else -1,
+                        previousImageId = determineIcon(viewModel.getPreviousCategory())
+                    )
                 }
 
-                MyCityScreen.PlacesList.name -> if (uiState.currentCategory != null) {
-                    when (viewModel.getNextCategory()?.name) {
-                        R.string.restaurants_category -> R.drawable.restaurant_icon
-                        R.string.bars_category -> R.drawable.bar_icon
-                        R.string.shops_category -> R.drawable.shops_icon
-                        R.string.parks_category -> R.drawable.nature_icon
-                        R.string.attractions_category -> R.drawable.attractions_icon
-                        else -> -1
-                    }
-                } else -1
-                else -> -1
-            },
-                previousImageId = when (currentScreen.name) {
-                    MyCityScreen.Place.name -> when (uiState.currentCategory?.name) {
-                        R.string.restaurants_category -> R.drawable.restaurant_icon
-                        R.string.bars_category -> R.drawable.bar_icon
-                        R.string.shops_category -> R.drawable.shops_icon
-                        R.string.parks_category -> R.drawable.nature_icon
-                        R.string.attractions_category -> R.drawable.attractions_icon
-                        else -> -1
-                    }
+                MyCityScreen.Place.name -> {
+                    NavButtonsAppBar(nextFunction = { viewModel.getNextPlace()?.let { viewModel.updateCurrentPlace(it) } },
+                        hasPreviousButton = true,
+                        previousFunction = { viewModel.getPreviousPlace()?.let { viewModel.updateCurrentPlace(it) }},
+                        nextImageId = determineIcon(uiState.currentCategory) ,
+                        previousImageId = determineIcon(uiState.currentCategory)
+                        )
 
-                    MyCityScreen.PlacesList.name -> when (viewModel.getPreviousCategory()?.name) {
-                        R.string.restaurants_category -> R.drawable.restaurant_icon
-                        R.string.bars_category -> R.drawable.bar_icon
-                        R.string.shops_category -> R.drawable.shops_icon
-                        R.string.parks_category -> R.drawable.nature_icon
-                        R.string.attractions_category -> R.drawable.attractions_icon
-                        else -> -1
-                    }
-
-                    else -> -1
                 }
-            )
+            }
         }
     }) { innerPadding ->
 
@@ -169,16 +129,18 @@ fun MyCityApp(
             composable(
                 route = MyCityScreen.Start.name
             ) {
-                if (contentType == WindowStateContentType.ListDetail) {
-                    ExpandedStartScreen(
-                        viewModel = viewModel,
-                        uiState = uiState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
-                } else {
-                    StartScreen(modifier = Modifier.fillMaxSize())
+                when (contentType) {
+                    WindowStateContentType.ListDetail -> {
+                        ExpandedStartScreen(
+                            viewModel = viewModel,
+                            uiState = uiState,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding)
+                        )
+                    }
+
+                    else -> StartScreen(modifier = Modifier.fillMaxSize())
                 }
             }
             composable(
@@ -216,6 +178,32 @@ fun MyCityApp(
                 )
             }
         }
+    }
+}
+
+private fun shouldButtonsAppear(
+    currentScreen: MyCityScreen,
+    contentType: WindowStateContentType
+) =
+    currentScreen.name != MyCityScreen.CategoryList.name && contentType != WindowStateContentType.ListDetail
+
+private fun determineTopBarTitle(
+    currentScreen: String, uiState: MyCityUiState
+) = when (currentScreen) {
+    MyCityScreen.CategoryList.name -> R.string.categories
+    MyCityScreen.PlacesList.name -> uiState.currentCategory!!.name
+    MyCityScreen.Place.name -> uiState.currentCategory!!.name
+    else -> R.string.app_name
+}
+
+private fun determineIcon(category: Category?): Int {
+    return when (category?.name) {
+        R.string.restaurants_category -> R.drawable.restaurant_icon
+        R.string.bars_category -> R.drawable.bar_icon
+        R.string.shops_category -> R.drawable.shops_icon
+        R.string.parks_category -> R.drawable.nature_icon
+        R.string.attractions_category -> R.drawable.attractions_icon
+        else -> -1
     }
 }
 

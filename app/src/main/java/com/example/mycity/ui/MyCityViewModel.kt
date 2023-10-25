@@ -65,7 +65,7 @@ class MyCityViewModel : ViewModel() {
             null
     }
 
-    fun <T> getNext(list: List<T>, current: T): T {
+    private fun <T> getNext(list: List<T>, current: T): T {
         val currentIndex = list.indexOf(current)
         return if (currentIndex < list.size - 1) {
             list[currentIndex + 1]
@@ -74,7 +74,7 @@ class MyCityViewModel : ViewModel() {
         }
     }
 
-    fun <T> getPrevious(list: List<T>, current: T): T {
+    private fun <T> getPrevious(list: List<T>, current: T): T {
         val currentIndex = list.indexOf(current)
         return if (currentIndex > 0) {
             list[currentIndex - 1]

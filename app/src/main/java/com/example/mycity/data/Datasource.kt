@@ -4,7 +4,7 @@ import com.example.mycity.R
 
 object Datasource {
 
-    val restaurantsCategory = Category(
+    private val restaurantsCategory = Category(
         name = R.string.restaurants_category,
         icon = R.drawable.restaurant_icon,
         list = listOf(
