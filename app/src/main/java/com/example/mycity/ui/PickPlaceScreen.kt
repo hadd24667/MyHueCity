@@ -136,10 +136,10 @@ fun PlaceCard(
 fun PlaceCardPreview() {
     PlaceCard(
         place = Place(
-            name = R.string.kavkaz_title,
-            description = R.string.kavkaz_description,
-            address = R.string.kavkaz_address,
-            photo = R.drawable.kavkaz
+            name = R.string.dai_noi_title,
+            description = R.string.dai_noi_description,
+            address = R.string.dai_noi_address,
+            photo = R.drawable.dai_noi
         )
     )
 

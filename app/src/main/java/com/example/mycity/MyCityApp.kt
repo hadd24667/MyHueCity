@@ -232,7 +232,7 @@ fun MyCityAppBar(
                 )
                 if (title == R.string.app_name) {
                     Image(
-                        painter = painterResource(id = R.drawable.emblem_of_yerevan),
+                        painter = painterResource(id = R.drawable.hue_logo),
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
@@ -336,7 +336,7 @@ fun MyAppPreview() {
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 fun MyAppExpandedPreview() {
     MyCityTheme {

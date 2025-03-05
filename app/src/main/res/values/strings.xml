@@ -1,59 +1,61 @@
 <resources>
-    <string name="app_name">My City</string>
-    <string name="kavkaz_title">Kavkaz</string>
-    <string name="kavkaz_description">For decades Kavkaz established itself as one of the best spots for enjoyers of Caucasian cuisine in Yerevan. Its rustic decorations accommodate lively feasts and offer, also, small secluded rooms for romantic dinners. The vast menu offers a selection of authentic dishes from Armenian and Georgian cuisine and extensive range of regional wines.</string>
-    <string name="kavkaz_address">4, 6 Teryan St</string>
-    <string name="genacvale_title">Genatsvale</string>
-    <string name="genacvale_description">A popular chain of Georgian restaurants that offers live music in some locations and a great menu of regional delicacies.</string>
-    <string name="genacvale_address">7 Kievyan St</string>
-    <string name="black_angus_title">Black Angus</string>
-    <string name="black_angus_description">An up and coming premium burger restaurant that stands tall over its counterparts due to excellent service and delicious burgers.</string>
-    <string name="black_angus_address">2/5 Abovyan St</string>
-    <string name="sakurada_title">Sakurada</string>
-    <string name="sakurada_description">Founded by Japanese, this quaint restaurant located underneath a staircase at the intersection of Abovyan and Nalbandyan. Sakurada is famous for its homemade udon noodles, but it has more than that to offer. Here I tried Omurice for the first time. </string>
-    <string name="sakurada_address">23, 20 Nalbandyan St</string>
-    <string name="beer_academy_title">Beer Academy</string>
-    <string name="beer_academy_description">First craft beer restaurant in Yerevan, offering a small, yet refined selection of their own beer and assortment of delicious snacks and meals to go with it.</string>
-    <string name="beer_academy_address">8 Moskovyan Street</string>
-    <string name="dargett_title">Dargett</string>
-    <string name="dargett_description">A restaurant of a new craft beer brand that offers a great selection of beer and amazing service.</string>
-    <string name="dargett_address">72 Aram Street</string>
-    <string name="lovers_park_title">Lovers\' Park</string>
-    <string name="lovers_park_description">Formerly known as Pushkin\'s park, it was built in early 2010\'s, replacing rusty wrecks of amusement rides and unkempt trees and bushes with tidy alleys, flowerbeds and nice benches.</string>
-    <string name="lovers_park_address">21 Marshal Baghramyan Ave</string>
-    <string name="victory_park_title">Victory Park</string>
-    <string name="victory_park_description">The biggest park in Yerevan, located behind the Cascade. Built to commemorate victory in WWII. The park contains a museum with WWII items displayed inside and vehicles of war displayed outside, an amusement park, a lake and many alleys.</string>
-    <string name="victory_park_address">Azatutyan Ave</string>
-    <string name="miniso_title">Miniso</string>
-    <string name="miniso_description">A trendy store chain of a Japanese brand of cosmetics, small appliances and everyday items.</string>
-    <string name="miniso_address">18/77, Northern Ave</string>
-    <string name="tsiran_title">Tsiran Supermarket</string>
-    <string name="tsiran_description">A supermarket chain that stands out with the quality of service, good planning, affordable prices and decent selection of products.</string>
-    <string name="tsiran_address">2a Hrachya Kochar St</string>
-    <string name="rio_mall_title">Rio Mall</string>
-    <string name="rio_mall_description">A huge mall in the Arabkir district of Yerevan. It offers a wide range of shops, cafes and a cinema.</string>
-    <string name="rio_mall_address">8 Vahram Papazyan St</string>
-    <string name="vernissage_title">Vernissage</string>
-    <string name="vernissage_description">On weekends, hundreds of painters and artisans display their work for tourists and locals in a park behind the Republic Square metro station. All kinds of hand-crafted curios, souvenirs and knick-knacks are available for purchase. The spot is especially popular with visiting diaspora to take a piece of homeland home with them. A part of the park is also used as a flea market.</string>
-    <string name="vernissage_address">1, 3 Buzand St</string>
-    <string name="cascade_title">Cascade</string>
-    <string name="cascade_description">A unique city monument in the center city center. For the most part it\'s literally a kilometer-long cascade of stairs. Due to its ambition and hard times the country fell on during the last stages of its construction its top part still stands unfinished to this day. In early 2000s a diaspora billionaire Astafyan subsidised its renovation and to this day inside the complex a museum in his name is located inside. The museum also serves as means to travel up and down on escalators for free, giving the opportunity to admire the philanthropist\'s peculiar collection of modern art on display. The outside portion of the cascade serves as a park, which due to the great view it offers and proximity to city center is always busy, from top to bottom.</string>
-    <string name="cascade_address">10 Tamanyan St</string>
-    <string name="northern_avenue_title">Northern Avenue</string>
-    <string name="northern_avenue_description">Constructed in late 2000\'s, this broadwalk connects Republic Square and Opera Square and unifies the city center. Packed with brand shops, business centers and fancy restaurants, it quickly became the most visited place in Yerevan.</string>
-    <string name="northern_avenue_address">Northern Avenue</string>
-    <string name="metro_title">Metro</string>
-    <string name="metro_description">It\'s only 10 stations long, but every station is a small architectural marvel with bold mix of avant-garde and classical designs. A convenient way to travel between most important parts of the city.</string>
-    <string name="metro_address">Republic Square &amp; other places</string>
-    <string name="restaurants_category">Restaurants</string>
-    <string name="bars_category">Bars</string>
-    <string name="parks_category">Parks</string>
-    <string name="shops_category">Shops</string>
-    <string name="attractions_category">Other Attractions</string>
+    <string name="app_name">Huế của tôi</string>
+    <string name="hue_title">Huế</string>
+    <string name="hue_description">Huế, cố đô của Việt Nam, nổi tiếng với quần thể di tích triều Nguyễn, sông Hương thơ mộng và ẩm thực cung đình.</string>
+
     <string name="back_button">Back</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
     <string name="categories">Categories</string>
-    <string name="yerevan_title">Yerevan</string>
-    <string name="yerevan_description">Yerevan, Armenia\'s capital, is marked by grand Soviet-era architecture. The Matenadaran library, housing thousands of ancient Greek and Armenian manuscripts, dominates its main avenue. Republic Square is the city\'s core, with musical water fountains and colonnaded government buildings. The 1920s History Museum of Armenia on the square\'s eastern side contains archaeological objects like a circa-3500-B.C. leather shoe.</string>
+
+    <string name="restaurants_category">Nhà hàng</string>
+    <string name="bars_category">Quán bar</string>
+    <string name="parks_category">Công viên</string>
+    <string name="shops_category">Cửa hàng</string>
+    <string name="attractions_category">Điểm tham quan</string>
+
+    <!-- Nhà hàng -->
+    <string name="cung_dinh_title">Nhà hàng Cung Đình</string>
+    <string name="cung_dinh_description">Nhà hàng nổi tiếng với ẩm thực cung đình Huế, mang đến trải nghiệm độc đáo về văn hóa và ẩm thực.</string>
+    <string name="cung_dinh_address">145 Lê Lợi, Huế</string>
+
+    <string name="khong_gian_xua_title">Không Gian Xưa</string>
+    <string name="khong_gian_xua_description">Không Gian Xưa - Nhà hàng ở Huế sở hữu các món ăn thuần Việt luôn được nhiều thực khách đánh giá cao bởi sự giản dị nhưng vô cùng đậm đà. </string>
+    <string name="khong_gian_xua_address">205 Điện Biên Phủ, Phường Trường An, TP. Huế</string>
+
+    <!-- Công viên -->
+    <string name="cong_vien_3_2_title">Công viên 3-2 Huế</string>
+    <string name="cong_vien_3_2_description">Công viên 3-2 Huế là công viên lớn và đẹp nhất ở thành phố Huế, nằm trên con đường Lê Lợi đông đúc và nhộn nhịp, một con đường nhiều cây xanh và bóng mát nhất cố đô. Không gian trong lành thoáng đãng cùng với phong cảnh đẹp đã thu hút nhiều người dân địa phương đến đây mỗi ngày</string>
+    <string name="cong_vien_3_2_address">Lê Lợi, Phú Hội, Thành phố Huế, T.P – Huế</string>
+
+    <!-- Điểm tham quan -->
+    <string name="dai_noi_title">Đại Nội Huế</string>
+    <string name="dai_noi_description">Kinh thành Huế, nơi từng là trung tâm quyền lực của triều Nguyễn, với kiến trúc cung đình tráng lệ.</string>
+    <string name="dai_noi_address">23/8, TP Huế</string>
+
+    <string name="lang_tu_duc_title">Lăng Tự Đức</string>
+    <string name="lang_tu_duc_description">Lăng Tự Đức là quần thể công trình kiến trúc tọa lạc trong một thung lũng nhỏ thuộc thôn Thượng Ba, phường Thủy Xuân, Huế. Nơi đây cách trung tâm thành phố khoảng 6km. Bên trái lăng là ngọn đồi Cảnh Vọng thơ mông, tô điểm thêm cho vẻ đẹp nên thơ của lăng.</string>
+    <string name="lang_tu_duc_address">Khiêm Lăng</string>
+
+    <string name="chua_huyen_khong_title">Chùa Huyền Không</string>
+    <string name="chua_huyen_khong_description">Ngôi chùa thuộc phái Nam Tông này có lịch sử hàng trăm năm, do nhà sư Viên Minh cùng các sư huynh đệ của mình dựng nên từ tre nứa vào năm 1973 ở huyện Phú Lộc, Huế phía bắc đèo Hải Vân.</string>
+    <string name="chua_huyen_khong_address">Thôn Nham Biển, xã Hương Hồ, huyện Hương Trà, TP Huế</string>
+
+    <!-- Shopping -->
+    <string name="santino_title">Santino</string>
+    <string name="santino_description">Santino là thương hiệu ghi dấu ấn với thiết kế hòa quyện giữa phong cách Ý và nét đẹp Á Đông.</string>
+    <string name="santino_address">Lô T231 - Tầng 2, AEON MALL Huế</string>
+
+    <string name="yofaso_title">YoFaSo</string>
+    <string name="yofaso_description">YoFaSo Huế là một trong những cửa hàng quần áo thời trang khá quen thuộc với giới trẻ tại TP. Huế thơ mộng.</string>
+    <string name="yofaso_address">197 Bà Triệu, TP. Huế</string>
+
+    <!-- Quán bar -->
+    <string name="dong_bar_title">ĐÔNG BAR</string>
+    <string name="dong_bar_description">Tên quán bar nghe đậm chất Huế, vì vậy cách đi bar cũng giống như cách đi “chợ”- thoải mái và trải nghiệm đa dạng các thể loại nhạc có gu. Đánh giá của du khách về Đông Bar cực kỳ tốt khi nói về cách đánh nhạc của DJ rất phù hợp cho giới trẻ, các loại nhạc chủ yếu như EDM/House/Tech-house/Tech-no/Trance.</string>
+    <string name="dong_bar_address">03 Phạm Ngũ Lão, TP Huế</string>
+
+    <string name="sophie_club_title">Sophie club Huế</string>
+    <string name="sophie_club_description">Điểm đặc biệt của Sophie là luôn có DJ tên tuổi và sàn nhảy rộng để du khách có thể tắm mình trong cơn mưa ánh sáng và thể hiện hết mình qua những điệu nhảy của dân chuyên khi đến đây.</string>
+    <string name="sophie_club_address">14 Phạm Ngũ Lão, Phú Hội, Huế</string>
 </resources>

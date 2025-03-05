@@ -9,28 +9,16 @@ object Datasource {
         icon = R.drawable.restaurant_icon,
         list = listOf(
             Place(
-                name = R.string.kavkaz_title,
-                description = R.string.kavkaz_description,
-                address = R.string.kavkaz_address,
-                photo = R.drawable.kavkaz
+                name = R.string.cung_dinh_title,
+                description = R.string.cung_dinh_description,
+                address = R.string.cung_dinh_address,
+                photo = R.drawable.cung_dinh
             ),
             Place(
-                name = R.string.genacvale_title,
-                description = R.string.genacvale_description,
-                address = R.string.genacvale_address,
-                photo = R.drawable.genacvale
-            ),
-            Place(
-                name = R.string.black_angus_title,
-                description = R.string.black_angus_description,
-                address = R.string.black_angus_address,
-                photo = R.drawable.blackangus
-            ),
-            Place(
-                name = R.string.sakurada_title,
-                description = R.string.sakurada_description,
-                address = R.string.sakurada_address,
-                photo = R.drawable.sakurada
+                name = R.string.khong_gian_xua_title,
+                description = R.string.khong_gian_xua_description,
+                address = R.string.khong_gian_xua_address,
+                photo = R.drawable.khong_gian_xua
             )
         )
     )
@@ -40,93 +28,76 @@ object Datasource {
         icon = R.drawable.bar_icon,
         list = listOf(
             Place(
-                name = R.string.beer_academy_title,
-                description = R.string.beer_academy_description,
-                address = R.string.beer_academy_address,
-                photo = R.drawable.beeracademy
+                name = R.string.dong_bar_title,
+                description = R.string.dong_bar_description,
+                address = R.string.dong_bar_address,
+                photo = R.drawable.dong_bar
             ),
             Place(
-                name = R.string.dargett_title,
-                description = R.string.dargett_description,
-                address = R.string.dargett_address,
-                photo = R.drawable.dargett
-            )
-        )
-    )
-    private val parksCategory=Category(
-        name=R.string.parks_category,
-        icon = R.drawable.nature_icon,
-        list=listOf(
-            Place(
-                name = R.string.lovers_park_title,
-                description = R.string.lovers_park_description,
-                address = R.string.lovers_park_address,
-                photo = R.drawable.loverspark
-            ),
-            Place(
-                name = R.string.victory_park_title,
-                description = R.string.victory_park_description,
-                address = R.string.victory_park_address,
-                photo = R.drawable.victorypark
-            )
-        )
-    )
-    private val shopsCategory=Category(
-        name=R.string.shops_category,
-        icon=R.drawable.shops_icon,
-        list = listOf(
-            Place(
-                name = R.string.miniso_title,
-                description = R.string.miniso_description,
-                address = R.string.miniso_address,
-                photo = R.drawable.miniso
-            ),
-            Place(
-                name = R.string.rio_mall_title,
-                description = R.string.rio_mall_description,
-                address = R.string.rio_mall_address,
-                photo = R.drawable.riomall
-            ),
-            Place(
-                name = R.string.tsiran_title,
-                description = R.string.tsiran_description,
-                address = R.string.tsiran_address,
-                photo = R.drawable.tsiran
+                name = R.string.sophie_club_title,
+                description = R.string.sophie_club_description,
+                address = R.string.sophie_club_address,
+                photo = R.drawable.sophie_club
             )
         )
     )
 
-    private val attractionsCategory= Category(
+    private val parksCategory = Category(
+        name = R.string.parks_category,
+        icon = R.drawable.nature_icon,
+        list = listOf(
+            Place(
+                name = R.string.cong_vien_3_2_title,
+                description = R.string.cong_vien_3_2_description,
+                address = R.string.cong_vien_3_2_address,
+                photo = R.drawable.cong_vien_3_2
+            )
+        )
+    )
+
+    private val attractionsCategory = Category(
         name = R.string.attractions_category,
         icon = R.drawable.attractions_icon,
         list = listOf(
             Place(
-                name = R.string.cascade_title,
-                description = R.string.cascade_description,
-                address = R.string.cascade_address,
-                photo = R.drawable.cascade
+                name = R.string.dai_noi_title,
+                description = R.string.dai_noi_description,
+                address = R.string.dai_noi_address,
+                photo = R.drawable.dai_noi
             ),
             Place(
-                name = R.string.metro_title,
-                description = R.string.metro_description,
-                address = R.string.metro_address,
-                photo = R.drawable.metro
+                name = R.string.lang_tu_duc_title,
+                description = R.string.lang_tu_duc_description,
+                address = R.string.lang_tu_duc_address,
+                photo = R.drawable.lang_tu_duc
             ),
             Place(
-                name = R.string.northern_avenue_title,
-                description = R.string.northern_avenue_description,
-                address = R.string.northern_avenue_address,
-                photo = R.drawable.northernavenue
-            ),
-            Place(
-                name = R.string.vernissage_title,
-                description = R.string.vernissage_description,
-                address = R.string.vernissage_address,
-                photo = R.drawable.vernissage
+                name = R.string.chua_huyen_khong_title,
+                description = R.string.chua_huyen_khong_description,
+                address = R.string.chua_huyen_khong_address,
+                photo = R.drawable.chua_huyen_khong
             )
         )
-
     )
-    val listOfCategories = listOf(restaurantsCategory, barsCategory, parksCategory, shopsCategory, attractionsCategory)
 
+    private val shopsCategory = Category(
+        name = R.string.shops_category,
+        icon = R.drawable.shops_icon,
+        list = listOf(
+            Place(
+                name = R.string.santino_title,
+                description = R.string.santino_description,
+                address = R.string.santino_address,
+                photo = R.drawable.santino
+            ),
+            Place(
+                name = R.string.yofaso_title,
+                description = R.string.yofaso_description,
+                address = R.string.yofaso_address,
+                photo = R.drawable.yofaso
+            )
+        )
+    )
+
+    val listOfCategories = listOf(restaurantsCategory, barsCategory, parksCategory, shopsCategory, attractionsCategory)
 }
